@@ -20,3 +20,8 @@ the **Appearance_id** is the combination of "*<game_id>*_*<player_id>*". $\right
 6. '`highest_market_value_in_eur`' column may be renamed as '`highest_val(K_eur)`' and we can divide its values by **1000**. 
 7. **...**
 ---
+# Player_valuations:
+1. `date` and `datetime` columns have the **same values**.
+2. `date` and `dateweek` columns have different values in **almost half of cases**, so they must be not the same thing.
+3. We should rename the `player_club_domestic_competition_id` column in something shorter.
+4. **...**
