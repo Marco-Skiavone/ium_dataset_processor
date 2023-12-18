@@ -65,7 +65,6 @@
    entity:
     - **club_id** (identifier)
     - name
-    - total_market_value
     - foreigners_percentage
     - squad_size
     - foreigners_number
@@ -75,12 +74,12 @@
     - stadium_seats
     - last_season
     - stadium_name
-    - coach_name
     - average_age
     - club_code (not sure to maintain)
 
 3. Instead, I would discard or arrange differently the sequent information in the csv:
     - domestic_competition_id: it will be present as a reference to the competition
+    - coach_name and total_market_value: both are null, so we discarded them
 
 ---
 
@@ -89,32 +88,50 @@
 1. This set represents a football player
 2. If I were to transpose this dataset into SQL I would do so by retaining the following attributes to the relevant
    entity:
-   - **player_id** (identifier)
-   - name
-   - current_club_id
-   - sub_position
-   - country_of_birth
-   - country_of_citizenship
-   - height_in_cm
-   - current_club_name
-   - market_value_in_eur
-   - url
-   - highest_market_value_in_eur
-   - position
-   - image_url
-   - foot
-   - current_club_domestic_competition_id
-   - date_of_birth
-   - city_of_birth
-   - agent_name
-   - player_code (not sure to maintain)
-   - contract_expiration_date
-   - last_season
+    - **player_id** (identifier)
+    - name
+    - current_club_id
+    - sub_position
+    - country_of_birth
+    - country_of_citizenship
+    - height_in_cm
+    - current_club_name
+    - market_value_in_eur
+    - url
+    - highest_market_value_in_eur
+    - position
+    - image_url
+    - foot
+    - current_club_domestic_competition_id
+    - date_of_birth
+    - city_of_birth
+    - agent_name
+    - player_code (not sure to maintain)
+    - contract_expiration_date
+    - last_season
 3. Instead, I would discard or arrange differently the sequent information in the csv:
-   - firs_name and last_name: this information are preset in name
-   - player_code: this information is unuseful, the set already has an identifier
-   - current_club_name: this information is unuseful, its sufficient current_club_id
+    - firs_name and last_name: this information are preset in name
+    - player_code: this information is unuseful, the set already has an identifier
+    - current_club_name: this information is unuseful, its sufficient current_club_id
 
 ---
 
-# 
+# Appearance:
+
+1. This set represents every appearance of a player in a past match and some information related to that appearance
+2. If I were to transpose this dataset into SQL I would do so by retaining the following attributes to the relevant
+   entity:
+   - **appearance_id** (identifier)
+   - minutes_played 
+   - yellow_cards
+   - player_current_club_id
+   - player_club_id
+   - assists
+   - red_cards
+   - goals
+3. Instead, I would discard or arrange differently the sequent information in the csv:
+   - game_id: It will be present as a foreign key
+   - player_id: It will be present as a foreign key
+   - date: it's an information relative to the game and it is redundant
+   - player_name: it's an information relative to the player and it's redundant
+   - competition_id: it's an information relative to the game and it's redundant
