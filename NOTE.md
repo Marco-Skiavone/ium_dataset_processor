@@ -143,14 +143,36 @@
 1. This set represents the various championships, and it's a bit odd
 2. If I were to transpose this dataset into SQL I would do so by retaining the following attributes to the relevant
    entity:
-   - **competition_id** (identifier)
-   - name
-   - competition_code
-   - type
-   - sub_type
-   - country_id
-   - country_name
-   - domestic_league_code
-   - url
+    - **competition_id** (identifier)
+    - name
+    - competition_code
+    - type
+    - sub_type
+    - country_id
+    - country_name
+    - domestic_league_code
+    - url
 3. Instead, I would discard or arrange differently the sequent information in the csv:
-   - confederation: It has the only value 'Europa'
+    - confederation: It has the only value 'Europa'
+
+---
+
+# Club_games:
+
+1. This data set represents information related to a specific game, such as scores and lineups.
+2. This dataset is special, as I represent it as a relationship, so its identifiers are actually foreign keys to Clubs
+   and Games.
+3. Furthermore, for ease of representation, I made sure that each tuple only takes into consideration the information of
+   one team at a time. According to this logic, therefore, each match will appear in this set twice, in order to
+   represent the data of both playing teams
+4. The attributes at the end of the process will be these:
+    - **game_id** and **club_id** as identifiers
+    - own_goals
+    - own_position
+    - own_manager_name
+    - hosting
+    - is_win
+    - club_formation (not sure)
+5. The attributes opponent_id, opponent_goals, opponent_position and opponent_manager_name will be passed to their
+   counterparts while maintaining the same game_id
+6. To be safe, I would check if by default the games_id is repeated twice within this set
