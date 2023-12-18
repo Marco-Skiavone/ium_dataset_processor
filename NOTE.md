@@ -44,14 +44,77 @@
    during a certain match
 2. If I were to transpose this dataset into SQL I would do so by retaining the following attributes to the relevant
    entity:
-   - **game_event_id** (identifier)
-   - type
-   - description
-   - player_assist_id
-   - club_id
-   - player_in_id
-   - minute
+    - **game_event_id** (identifier)
+    - type
+    - description
+    - player_assist_id
+    - club_id
+    - player_in_id
+    - minute
 3. Instead, I would discard or arrange differently the sequent information in the csv:
-   - date: it's the date of the match and I decided to discard it because it's already present in the Games set
-   - game_id: actually it's present as a foreign key of Games set
-   - player_id: like game_id it's present as a foreign key of Players set
+    - date: it's the date of the match and I decided to discard it because it's already present in the Games set
+    - game_id: actually it's present as a foreign key of Games set
+    - player_id: like game_id it's present as a foreign key of Players set
+
+---
+
+# Clubs:
+
+1. This set represents a football team
+2. If I were to transpose this dataset into SQL I would do so by retaining the following attributes to the relevant
+   entity:
+    - **club_id** (identifier)
+    - name
+    - total_market_value
+    - foreigners_percentage
+    - squad_size
+    - foreigners_number
+    - url
+    - net_transfer_record
+    - national_team_players
+    - stadium_seats
+    - last_season
+    - stadium_name
+    - coach_name
+    - average_age
+    - club_code (not sure to maintain)
+
+3. Instead, I would discard or arrange differently the sequent information in the csv:
+    - domestic_competition_id: it will be present as a reference to the competition
+
+---
+
+# Players:
+
+1. This set represents a football player
+2. If I were to transpose this dataset into SQL I would do so by retaining the following attributes to the relevant
+   entity:
+   - **player_id** (identifier)
+   - name
+   - current_club_id
+   - sub_position
+   - country_of_birth
+   - country_of_citizenship
+   - height_in_cm
+   - current_club_name
+   - market_value_in_eur
+   - url
+   - highest_market_value_in_eur
+   - position
+   - image_url
+   - foot
+   - current_club_domestic_competition_id
+   - date_of_birth
+   - city_of_birth
+   - agent_name
+   - player_code (not sure to maintain)
+   - contract_expiration_date
+   - last_season
+3. Instead, I would discard or arrange differently the sequent information in the csv:
+   - firs_name and last_name: this information are preset in name
+   - player_code: this information is unuseful, the set already has an identifier
+   - current_club_name: this information is unuseful, its sufficient current_club_id
+
+---
+
+# 
