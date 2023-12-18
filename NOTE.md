@@ -121,17 +121,36 @@
 1. This set represents every appearance of a player in a past match and some information related to that appearance
 2. If I were to transpose this dataset into SQL I would do so by retaining the following attributes to the relevant
    entity:
-   - **appearance_id** (identifier)
-   - minutes_played 
-   - yellow_cards
-   - player_current_club_id
-   - player_club_id
-   - assists
-   - red_cards
-   - goals
+    - **appearance_id** (identifier)
+    - minutes_played
+    - yellow_cards
+    - player_current_club_id
+    - player_club_id
+    - assists
+    - red_cards
+    - goals
 3. Instead, I would discard or arrange differently the sequent information in the csv:
-   - game_id: It will be present as a foreign key
-   - player_id: It will be present as a foreign key
-   - date: it's an information relative to the game and it is redundant
-   - player_name: it's an information relative to the player and it's redundant
-   - competition_id: it's an information relative to the game and it's redundant
+    - game_id: It will be present as a foreign key
+    - player_id: It will be present as a foreign key
+    - date: it's an information relative to the game and it is redundant
+    - player_name: it's an information relative to the player and it's redundant
+    - competition_id: it's an information relative to the game and it's redundant
+
+---
+
+# Competition:
+
+1. This set represents the various championships, and it's a bit odd
+2. If I were to transpose this dataset into SQL I would do so by retaining the following attributes to the relevant
+   entity:
+   - **competition_id** (identifier)
+   - name
+   - competition_code
+   - type
+   - sub_type
+   - country_id
+   - country_name
+   - domestic_league_code
+   - url
+3. Instead, I would discard or arrange differently the sequent information in the csv:
+   - confederation: It has the only value 'Europa'
