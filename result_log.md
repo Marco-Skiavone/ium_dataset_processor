@@ -24,7 +24,8 @@ the **Appearance_id** is the combination of "*<game_id>*_*<player_id>*". $\right
 2. We found out all the **international** competitions have matching ***Null*** values for the columns `country_id`, `country_name` and `domestic_league_code`. $\rightarrow$ Everything is still good with these values and the tuples are still valid!
 3. We also found out that the columns `competition_code` and `name` have same values through all the csv. 
 4. The `domestic_competition_code` column has different values, but they are still used by more than one tuple. We need to check carefully where they are used in the dataset!
-5. **...**
+5. We should maintain `country_name` renamed as `country`, meanwhile `country_id` will be lost.
+6. **...**
 > ###### 2. What should we maintain between *country_id* and _country_name_?
 > ###### 3. Which column between *'competition_code'* and *'name'* should we maintain? 
 > ###### 4. Watch out the _domestic_competition_code_ column in other _.csv_ files!
