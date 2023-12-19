@@ -14,7 +14,6 @@ the **Appearance_id** is the combination of "*<game_id>*_*<player_id>*". $\right
 ---
 # Clubs:
 1. `coach_name` and `total_market_value` are both **NULL** columns $\rightarrow$ ***WE WILL REMOVE THEM!***
-1. `coach_name` and `total_market_value` are both **NULL** columns $\rightarrow$ ***WE WILL REMOVE THEM!***
 2. There are wrong sized clubs in the current clubs of players. **WHAT SHALL WE DO ?!**
 3. There are players with `current_club_id` set on clubs that have recorded 0 players in their squad. **THIS IS A PROBLEM.**
 4. **...**
@@ -41,19 +40,12 @@ the **Appearance_id** is the combination of "*<game_id>*_*<player_id>*". $\right
 8. `contract_expiration_date` can be None or can (potentially) be a date in the past. So we must check it on Express/Spring-Boot to see if it is expired.
 9. `current_club_name` and `current_club_domestic_competition_id` can be dropped because we see them from the club side.
 10. `position` column has to be `None` when it has *value=='Missing'*. (There is a *@todo* commented code cell in *Players.ipynb*)
-6. `highest_market_value_in_eur` column may be renamed as `highest_val(K_eur)` and we can divide its values by **1000**. 
-7. `player_code` seems to be useless. But we could try to see if it can restore `first_name`. **Surely, we don't want to maintain its content in the servers!**
-8. `contract_expiration_date` can be None or can (potentially) be a date in the past. So we must check it on Express/Spring-Boot to see if it is expired.
-9. `current_club_name` and `current_club_domestic_competition_id` can be dropped because we see them from the club side.
-10. `position` column has to be `None` when it has *value=='Missing'*. (There is a *@todo* commented code cell in *Players.ipynb*)
 11. **...**
 > ###### See *3.* of Clubs to resolve the issue about club_ids!
 ---
 # Player_valuations:
 1. `date` and `datetime` columns have the **same values**. $\rightarrow$ we removed the `datetime` columns.
 2. `date` and `dateweek` columns have different values in **almost half of cases**, so they must be not the same thing.
-3. We renamed the `player_club_domestic_competition_id` column in something shorter (`competition_id` for now).
-4. It seems that `n` column values are all ***1***. I can't figure out what it represents, so we could remove the column.
 3. We renamed the `player_club_domestic_competition_id` column in something shorter (`competition_id` for now).
 4. It seems that `n` column values are all ***1***. I can't figure out what it represents, so we could remove the column.
 5. **...**
