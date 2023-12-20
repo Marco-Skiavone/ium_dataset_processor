@@ -154,6 +154,7 @@
 3. Instead, I would discard or arrange differently the sequent information in the csv:
     - confederation: It has the only value 'Europa'
     - country_id: contains irrelevant data
+4. We could put this set in **mongoDB**
 
 ---
 
