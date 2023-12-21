@@ -154,6 +154,7 @@
 3. Instead, I would discard or arrange differently the sequent information in the csv:
     - confederation: It has the only value 'Europa'
     - country_id: contains irrelevant data
+4. We could put this set in **mongoDB**
 
 ---
 
@@ -187,4 +188,15 @@
     - we need to determine the differences between date, datetime and dateweek, probably they describe the same data,
       and we can maintain only one of them
     - the attribute n has always the value set to 1
+
+---
+
+# Game_lineups:
+
+1. This set represents various information about a player of a certain club during a certain game.
+2. I think this is a valid set to insert into mongoDB, because those data aren't requested from any other entity
+3. At hte same time some attributes could be foreign key if I create game_lineups as a SQL entity, those attributes are:
+    - game_id
+    - club_id
+    - player_id
    
