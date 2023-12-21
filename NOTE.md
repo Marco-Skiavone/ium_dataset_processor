@@ -65,7 +65,7 @@
    entity:
     - **club_id** (identifier)
     - name
-    - foreigners_percentage
+    - foreigners_percentage: It's calculated as
     - squad_size
     - foreigners_number
     - url
@@ -148,12 +148,13 @@
     - competition_code
     - type
     - sub_type
-    - country_id
     - country_name
     - domestic_league_code
     - url
 3. Instead, I would discard or arrange differently the sequent information in the csv:
     - confederation: It has the only value 'Europa'
+    - country_id: contains irrelevant data
+4. We could put this set in **mongoDB**
 
 ---
 
@@ -176,3 +177,26 @@
 5. The attributes opponent_id, opponent_goals, opponent_position and opponent_manager_name will be passed to their
    counterparts while maintaining the same game_id
 6. To be safe, I would check if by default the games_id is repeated twice within this set
+
+---
+
+# Player_valuation:
+
+1. This set represents various player-related information that varies over time. The particular structure of this set
+   makes it a perfect candidate for inclusion in **mongoDB**.
+2. Nonetheless, some data needs to be revised or is not consistent, for example:
+    - we need to determine the differences between date, datetime and dateweek, probably they describe the same data,
+      and we can maintain only one of them
+    - the attribute n has always the value set to 1
+
+---
+
+# Game_lineups:
+
+1. This set represents various information about a player of a certain club during a certain game.
+2. I think this is a valid set to insert into mongoDB, because those data aren't requested from any other entity
+3. At hte same time some attributes could be foreign key if I create game_lineups as a SQL entity, those attributes are:
+    - game_id
+    - club_id
+    - player_id
+   
