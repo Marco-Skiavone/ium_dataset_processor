@@ -218,7 +218,13 @@
 1. This set represents various information about a player of a certain club during a certain game.
 2. I think this is a valid set to insert into mongoDB, because those data aren't requested from any other entity
 3. At the same time some attributes could be foreign key if I create game_lineups as a SQL entity, those attributes are:
-    - game_id
-    - club_id
-    - player_id
-   
+    - ```game_id```
+    - ```club_id```
+    - ```player_id```
+4. The attributes at the end of the process will be these:
+   - ```game_lineups_id``` $\rightarrow$ it is the identification code of the lineup
+   - ```type``` $\rightarrow$ it is the type of lineup, it could change during a match
+   - ```number``` $\rightarrow$ it is the number of tshirt of the player
+   - ```team_captain``` $\rightarrow$ it indicates if the player is the captain of the team
+   - ```position``` $\rightarrow$ it indicates the position of the player on the soccer field
+   - ```player_name``` (not sure to maintain) $\rightarrow$ it is the player full name
