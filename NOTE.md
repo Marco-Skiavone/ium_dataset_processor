@@ -65,7 +65,7 @@
     - ```date``` $\rightarrow$ it's the date of the match and I decided to discard it because it's already present in
       the Games set
     - ```game_id``` $\rightarrow$ actually it's present as a foreign key of Games set
-    - ```player_id``` $\rightarrow$ like game_id it's present as a foreign key of Players set
+    - ```player_id``` $\rightarrow$ like ```game_id``` it's present as a foreign key of Players set
 
 ---
 
@@ -122,7 +122,7 @@
 3. Instead, I would discard or arrange differently the sequent information in the csv:
     - ```firs_name``` and ```last_name``` $\rightarrow$ this information are preset in name
     - ```player_code``` $\rightarrow$ this information is unuseful, the set already has an identifier
-    - ```current_club_name``` $\rightarrow$ this information is unuseful, its sufficient current_club_id
+    - ```current_club_name``` $\rightarrow$ this information is unuseful, its sufficient ```current_club_id```
 
 ---
 
@@ -180,15 +180,16 @@
    represent the data of both playing teams
 4. The attributes at the end of the process will be these:
     - **game_id** and **club_id** as identifiers
-    - own_goals
-    - own_position
-    - own_manager_name
-    - hosting
-    - is_win
-    - club_formation (not sure)
-5. The attributes opponent_id, opponent_goals, opponent_position and opponent_manager_name will be passed to their
-   counterparts while maintaining the same game_id
-6. To be safe, I would check if by default the games_id is repeated twice within this set
+    - ```own_goals``` $\rightarrow$ it is the number of goals of a club in a certain game
+    - ```own_position``` $\rightarrow$ it is the team's ranking position after a certain game
+    - ```own_manager_name``` $\rightarrow$ it is the name of the manager of the club during a certain game
+    - ```hosting``` $\rightarrow$ it indicates if the club is hosting or not the game
+    - ```is_win``` $\rightarrow$ it indicates if the club is winning the game or not
+    - ```club_formation``` (not sure) $\rightarrow$ it is an information derived from the games table, it indicates the
+      formation of the club for a certain game
+5. The attributes ```opponent_id```, ```opponent_goals```, ```opponent_position``` and ```opponent_manager_name``` will
+   be passed to their counterparts while maintaining the same ```game_id```
+6. To be safe, I would check if by default the ```games_id``` is repeated twice within this set
 
 ---
 
