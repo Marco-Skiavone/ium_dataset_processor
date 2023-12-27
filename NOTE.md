@@ -75,22 +75,22 @@
 2. If I were to transpose this dataset into SQL I would do so by retaining the following attributes to the relevant
    entity:
     - **club_id** (identifier)
-    - name
-    - foreigners_percentage: It's calculated as
-    - squad_size
-    - foreigners_number
-    - url
-    - net_transfer_record
-    - national_team_players
-    - stadium_seats
-    - last_season
-    - stadium_name
-    - average_age
-    - club_code (not sure to maintain)
+    - ```name``` $\rightarrow$ it is the name of the club
+    - ```foreigners_percentage``` $\rightarrow$ it is the percentage of foreign player in the club
+    - ```squad_size``` $\rightarrow$ it is the number of player in the club
+    - ```foreigners_number``` $\rightarrow$ it is the number of foreign players in the club
+    - ```url``` $\rightarrow$ it is the url to the page of the club
+    - ```net_transfer_record``` $\rightarrow$ it indicates the net transfer record for a transaction
+    - ```national_team_players``` $\rightarrow$ it indicates the number of player from the same nation of the club
+    - ```stadium_seats``` $\rightarrow$ it indicates the number of stadium seats
+    - ```last_season``` $\rightarrow$ it indicates the year of the last season played by the team
+    - ```stadium_name``` $\rightarrow$ it is the name of the home stadium of the club
+    - ```average_age``` $\rightarrow$ it is the average age of the player of the team
+    - ```club_code``` (not sure to maintain) $\rightarrow$ it is an alternative identification code for the club
 
 3. Instead, I would discard or arrange differently the sequent information in the csv:
-    - domestic_competition_id: it will be present as a reference to the competition
-    - coach_name and total_market_value: both are null, so we discarded them
+    - ```domestic_competition_id``` $\rightarrow$ it will be present as a reference to the competition
+    - ```coach_name``` and ```total_market_value``` $\rightarrow$ both are null, so we discarded them
 
 ---
 
