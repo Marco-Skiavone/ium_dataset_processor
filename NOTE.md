@@ -155,16 +155,17 @@
 2. If I were to transpose this dataset into SQL I would do so by retaining the following attributes to the relevant
    entity:
     - **competition_id** (identifier)
-    - name
-    - competition_code
-    - type
-    - sub_type
-    - country_name
-    - domestic_league_code
-    - url
+    - ```name``` $\rightarrow$ it is the name of the competition
+    - ```competition_code``` $\rightarrow$ it is another identification code of the competition
+    - ```type``` $\rightarrow$ it is the kind of competition
+    - ```sub_type``` $\rightarrow$ it indicates more precisely the kind of competition
+    - ```country_name``` $\rightarrow$ it indicates the nation of the competition if it takes place in only one nation
+    - ```domestic_league_code``` $\rightarrow$ in case it is a national competition it indicates the code of the
+      domestic league
+    - ```url``` $\rightarrow$ it is a link to the competition's web page
 3. Instead, I would discard or arrange differently the sequent information in the csv:
-    - confederation: It has the only value 'Europa'
-    - country_id: contains irrelevant data
+    - ```confederation``` $\rightarrow$ It has the only value 'europa'
+    - ```country_id``` $\rightarrow$ contains irrelevant data
 4. We could put this set in **mongoDB**
 
 ---
