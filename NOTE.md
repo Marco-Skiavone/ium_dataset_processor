@@ -132,19 +132,20 @@
 2. If I were to transpose this dataset into SQL I would do so by retaining the following attributes to the relevant
    entity:
     - **appearance_id** (identifier)
-    - minutes_played
-    - yellow_cards
-    - player_current_club_id
-    - player_club_id
-    - assists
-    - red_cards
-    - goals
+    - ```minutes_played``` $\rightarrow$ it indicates how many minutes a player played in a certain game
+    - ```yellow_cards``` $\rightarrow$ it indicates the number of yellow card that a player get during a certain game
+    - ```player_current_club_id``` $\rightarrow$ it is a redundant data, it is the same data of current_club_id in the
+      player table
+    - ```player_club_id``` $\rightarrow$ it indicates in which club the player was playing when it appeared
+    - ```assists``` $\rightarrow$ it indicates the number of assists of the player during a certain game
+    - ```red_cards``` $\rightarrow$ it indicates the number of red cards that a player get during a certain game
+    - ```goals``` $\rightarrow$ it is the number of goals scored by a player during a certain game
 3. Instead, I would discard or arrange differently the sequent information in the csv:
-    - game_id: It will be present as a foreign key
-    - player_id: It will be present as a foreign key
-    - date: it's an information relative to the game and it is redundant
-    - player_name: it's an information relative to the player and it's redundant
-    - competition_id: it's an information relative to the game and it's redundant
+    - ```game_id``` $\rightarrow$ It will be present as a foreign key
+    - ```player_id``` $\rightarrow$ It will be present as a foreign key
+    - ```date``` $\rightarrow$ it's an information relative to the game and it is redundant
+    - ```player_name``` $\rightarrow$ it's an information relative to the player and it's redundant
+    - ```competition_id``` $\rightarrow$ it's an information relative to the game and it's redundant
 
 ---
 
