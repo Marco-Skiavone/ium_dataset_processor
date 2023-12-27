@@ -53,16 +53,19 @@
 2. If I were to transpose this dataset into SQL I would do so by retaining the following attributes to the relevant
    entity:
     - **game_event_id** (identifier)
-    - type
-    - description
-    - player_assist_id
-    - club_id
-    - player_in_id
-    - minute
+    - ```type``` $\rightarrow$ it indicate the kind of game event
+    - ```description``` $\rightarrow$ it is a short description of the game event
+    - ```player_assist_id``` $\rightarrow$ in case the event is an assist it indicates the player that did the assist
+    - ```club_id``` $\rightarrow$ it indicates the club of the player when it did the event, it's a redundant data, but
+      it's a nice to have
+    - ```player_in_id``` $\rightarrow$ in case the event is a substitution it indicates the player that substitute the
+      main player
+    - ```minute``` $\rightarrow$ it indicates the minute of the game when the event occur
 3. Instead, I would discard or arrange differently the sequent information in the csv:
-    - date: it's the date of the match and I decided to discard it because it's already present in the Games set
-    - game_id: actually it's present as a foreign key of Games set
-    - player_id: like game_id it's present as a foreign key of Players set
+    - ```date``` $\rightarrow$ it's the date of the match and I decided to discard it because it's already present in
+      the Games set
+    - ```game_id``` $\rightarrow$ actually it's present as a foreign key of Games set
+    - ```player_id``` $\rightarrow$ like game_id it's present as a foreign key of Players set
 
 ---
 
