@@ -10,30 +10,38 @@
 2. If I were to transpose this dataset into SQL I would do so by retaining the following attributes to the relevant
    entity:
     - **game_id** (identifier)
-    - aggregate
-    - referee
-    - stadium
-    - round
-    - season
-    - date
-    - attendance
-    - url
+    - ```aggregate``` $\rightarrow$ it is the aggregate score of a match relating to both teams
+    - ```referee``` $\rightarrow$ it is the arbiter of the match
+    - ```stadium``` $\rightarrow$ it is where is set the match
+    - ```round``` $\rightarrow$ it is the round of the game
+    - ```season``` $\rightarrow$ it is the season year
+    - ```date``` $\rightarrow$ it is when is set the game
+    - ```attendance``` $\rightarrow$ it is the number of audience
+    - ```url```
 3. Instead, I would discard or arrange differently the sequent information in the csv:
-    - competition_id: is information about the Competition entity and will later be bound via a foreign key to the Games
-    - home_club_id and away_club_id: are the identifiers of the two playing teams, I decided not to keep them to
+    - ```competition_id``` $\rightarrow$ is information about the Competition entity and will later be bound via a
+      foreign key to the Games
+    - ```home_club_id``` and ```away_club_id``` $\rightarrow$ are the identifiers of the two playing teams, I decided
+      not to keep them to
       maintain better data consistency
-    - home_club_goals and away_club_goals: are the numbers of goals scored by the respective teams, I decided to
+    - ```home_club_goals``` and ```away_club_goals``` $\rightarrow$ are the numbers of goals scored by the respective
+      teams, I decided to
       condense them into a single attribute in the Club_games relationship
-    - home_club_position and away_club_position: are the positions in the championship ranking relating to a team, I
+    - ```home_club_position``` and ```away_club_position``` $\rightarrow$ are the positions in the championship ranking
+      relating to a team, I
       also decided to condense this into a single attribute in the Club_games relation
-    - home_club_manager_name and away_club_manager_name: I'm still not completely sure what they are, but I think they
+    - ```home_club_manager_name``` and ```away_club_manager_name``` $\rightarrow$ I'm still not completely sure what
+      they are, but I think they
       are the names of the coaches of the two teams for that specific match, also in this case I decided to insert them
       together in Club_games
-    - home_club_formation and away_club_formation: are the formations of the two teams maintained during the match, like
+    - ```home_club_formation``` and ```away_club_formation``` $\rightarrow$ are the formations of the two teams
+      maintained during the match, like
       the other cases I have condensed them in Club_games
-    - home_club_name and away_club_name: I decided not to keep them as they are data already present in Club and would
+    - ```home_club_name``` and ```away_club_name``` $\rightarrow$ I decided not to keep them as they are data already
+      present in Club and would
       therefore be redundant
-    - competition_type: this data is related to competition, so as in competition_id I decided not to reinsert it to
+    - ```competition_type``` $\rightarrow$ this data is related to competition, so as in competition_id I decided not to
+      reinsert it to
       avoid redundancy
 
 ---
@@ -195,7 +203,7 @@
 
 1. This set represents various information about a player of a certain club during a certain game.
 2. I think this is a valid set to insert into mongoDB, because those data aren't requested from any other entity
-3. At hte same time some attributes could be foreign key if I create game_lineups as a SQL entity, those attributes are:
+3. At the same time some attributes could be foreign key if I create game_lineups as a SQL entity, those attributes are:
     - game_id
     - club_id
     - player_id
