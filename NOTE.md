@@ -86,7 +86,7 @@
     - ```last_season``` $\rightarrow$ it indicates the year of the last season played by the team
     - ```stadium_name``` $\rightarrow$ it is the name of the home stadium of the club
     - ```average_age``` $\rightarrow$ it is the average age of the player of the team
-    - ```club_code``` (not sure to maintain) $\rightarrow$ it is an alternative identification code for the club
+    - ```club_code``` **(not sure to maintain)** $\rightarrow$ it is an alternative identification code for the club
 
 3. Instead, I would discard or arrange differently the sequent information in the csv:
     - ```domestic_competition_id``` $\rightarrow$ it will be present as a reference to the competition
@@ -100,30 +100,29 @@
 2. If I were to transpose this dataset into SQL I would do so by retaining the following attributes to the relevant
    entity:
     - **player_id** (identifier)
-    - name
-    - current_club_id
-    - sub_position
-    - country_of_birth
-    - country_of_citizenship
-    - height_in_cm
-    - current_club_name
-    - market_value_in_eur
-    - url
-    - highest_market_value_in_eur
-    - position
-    - image_url
-    - foot
-    - current_club_domestic_competition_id
-    - date_of_birth
-    - city_of_birth
-    - agent_name
-    - player_code (not sure to maintain)
-    - contract_expiration_date
-    - last_season
+    - ```name``` $\rightarrow$ it is the full name of the player
+    - ```current_club_id``` $\rightarrow$ it indicates the current club that the player plays for
+    - ```sub_position``` $\rightarrow$ it indicates an alternative position that the player plays in
+    - ```country_of_birth``` $\rightarrow$ it is the country where the player was born
+    - ```country_of_citizenship``` $\rightarrow$ it is the country where the player lives
+    - ```height_in_cm``` $\rightarrow$ it is the height of the player
+    - ```market_value_in_eur``` $\rightarrow$ it is the value of the player if another club wants to buy it
+    - ```url``` $\rightarrow$ it is the url to the player's page
+    - ```highest_market_value_in_eur``` $\rightarrow$ it is the highest record of the market value of a player
+    - ```position``` $\rightarrow$ it indicates the main position that the player plays in
+    - ```image_url``` $\rightarrow$ it is a link to a picture of the player
+    - ```foot``` $\rightarrow$ it indicates which foot the player tends to shoot with
+    - ```current_club_domestic_competition_id``` **(not sure to maintain)** $\rightarrow$ it indicates the competition
+      in which the player's team is participating
+    - ```date_of_birth``` $\rightarrow$ it indicates when the player was born
+    - ```city_of_birth``` $\rightarrow$ it indicates the city where the player was born
+    - ```agent_name``` $\rightarrow$ it is the full name of the player's agent
+    - ```contract_expiration_date``` $\rightarrow$ it indicates when the contract with a club will expire
+    - ```last_season``` $\rightarrow$ it indicates the year of the last season played by the player
 3. Instead, I would discard or arrange differently the sequent information in the csv:
-    - firs_name and last_name: this information are preset in name
-    - player_code: this information is unuseful, the set already has an identifier
-    - current_club_name: this information is unuseful, its sufficient current_club_id
+    - ```firs_name``` and ```last_name``` $\rightarrow$ this information are preset in name
+    - ```player_code``` $\rightarrow$ this information is unuseful, the set already has an identifier
+    - ```current_club_name``` $\rightarrow$ this information is unuseful, its sufficient current_club_id
 
 ---
 
