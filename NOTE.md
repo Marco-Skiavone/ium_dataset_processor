@@ -198,9 +198,18 @@
 1. This set represents various player-related information that varies over time. The particular structure of this set
    makes it a perfect candidate for inclusion in **mongoDB**.
 2. Nonetheless, some data needs to be revised or is not consistent, for example:
-    - we need to determine the differences between date, datetime and dateweek, probably they describe the same data,
-      and we can maintain only one of them
-    - the attribute n has always the value set to 1
+    - we need to determine the differences between ```date```, ```datetime``` and ```dateweek```, probably they describe
+      the same data, and we can maintain only one of them
+    - the attribute ```n``` has always the value set to 1
+3. The attributes at the end of the process will be these:
+    - ```player_id``` $\rightarrow$ it is the identification code of the player
+    - ```last_season``` $\rightarrow$ it is the year of the last season played by the player at the time of the
+      valuation
+    - ```date``` $\rightarrow$ it is the date of the valuation
+    - ```market_value_in_eur``` $\rightarrow$ it is the value of the player at the time of the valuation
+    - ```current_club_id``` $\rightarrow$ it is the player's current club at the time of the valuation
+    - ```player_club_domestic_competition_id``` $\rightarrow$ it is the competition the player's team was participating
+      in at the time
 
 ---
 
