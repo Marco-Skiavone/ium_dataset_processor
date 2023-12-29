@@ -25,7 +25,8 @@
 2. There are wrong sized clubs in the current clubs of players. **WHAT SHALL WE DO ?!**
 3. There are players with `current_club_id` set on clubs that have recorded 0 players in their squad. **THIS IS A
    PROBLEM.**
-4. **...**
+4. `domestic_competition_id` is corresponding to `domestic_league_code` of **competitions** table.
+5. **...**
 
 > ###### 3. Should we update the clubs or remove both the records from the two tables ?
 ---
@@ -49,7 +50,8 @@
 4. The `domestic_competition_code` column has different values, but they are still used by more than one tuple. We need
    to check carefully where they are used in the dataset!
 5. We should maintain `country_name` renamed as `country`, meanwhile `country_id` will be lost.
-6. **...**
+6. `domestic_competition_id` is equal to `domestic_league_code` in case of local competitions (e.g. *Italian Cup == IT1*).
+7. **...**
 
 > ###### 2. What should we maintain between *country_id* and _country_name_?
 > ###### 3. Which column between *'competition_code'* and *'name'* should we maintain?
