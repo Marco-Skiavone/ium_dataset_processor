@@ -10,8 +10,7 @@
 2. **Note:**
    the **Appearance_id** is the combination of "*<game_id>*_*<player_id>*". $\rightarrow$ **This will need a type
    definition!**
-3. We have many ***player_name*** that are **None** and that does not intersect with the ***player_id*** of the *
-   *not-Null** rows, neither with the ids of the *players.csv* dataset $\rightarrow$ We have to decide if remove them or
+3. We have many ***player_name*** that are **None** and that does not intersect with the ***player_id*** of the **not-Null** rows, neither with the ids of the *players.csv* dataset $\rightarrow$ We have to decide if remove them or
    not.
 4. Remember to change the type of the ***player_name*** column into a *string*.
    (`app['player_name'] = app['player_name'].astype('string')`)
