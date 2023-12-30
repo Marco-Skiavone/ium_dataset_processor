@@ -62,13 +62,14 @@ def clean_clubs(clubs):
     clubs = clubs.drop(columns=['coach_name', 'total_market_value', 'club_code'])    # Both are null
     clubs['name'] = clubs['name'].astype('string')
     clubs['domestic_competition_id'] = clubs['domestic_competition_id'].astype('string')
-    clubs.rename(columns={'name': 'club_name', 'domestic_competition_id': 'local_competition_code', 'url': 'club_url'})
-    # @Todo resolve this:
-    # - There are players with 'current_club_id' set on clubs that have recorded 0 players in their squad!
+    clubs.rename(columns={'name': 'club_name', 'domestic_competition_id': 'local_competition_code', 'url': 'club_url'},
+                 inplace=True)
+    # @Todo 1. resolve squad == 0;
     players = get_players()
-    clubs['squad_size'] = clubs.apply(lambda x: search_squad_players(x, players))
+    clubs['squad_size'] = clubs['squad_size'].apply(lambda x: search_squad_players(x, players))
     players = None
-
+    # @Todo 2. resolve foreigners percentage when Nan;
+    # clubs['foreigners_percentage'] = clubs['foreigners_percentage'].apply(lambda x: )
     clubs['stadium_name'] = clubs['stadium_name'].astype('string')
     clubs.at[409, 'stadium_seats'] = 4851       # correcting the only 0 value!
 
@@ -78,6 +79,5 @@ def clean_clubs(clubs):
 
 
 def search_squad_players(x, players):
-    if x['squad_size'] == 0:
-        x['squad_size'] = players.query('current_club_id == @x.club_id').shape[0]
+
     return x
