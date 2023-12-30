@@ -53,3 +53,18 @@ def clean_club_games(club_games):
     club_games['is_win'] = club_games['is_win'].apply(lambda x: bool(x == 1))
     # @Todo Here we have to add 'club_formation' column from games!
     return club_games
+
+
+def clean_clubs(clubs):
+    clubs = clubs.drop(columns=['coach_name', 'total_market_value'])    # Both are null
+    clubs['club_code'] = clubs['club_code'].astype('string')    # @Todo Choose if it is to maintain or not!
+    clubs['name'] = clubs['name'].astype('string')
+    clubs['domestic_competition_id'] = clubs['domestic_competition_id'].astype('string')    # Here as a Foreign Key!
+    # @Todo resolve this:
+    # There are players with 'current_club_id' set on clubs that have recorded 0 players in their squad!
+    clubs['stadium_name'] = clubs['stadium_name'].astype('string')
+    clubs.at[409, 'stadium_seats'] = 4851       # correcting the only 0 value!
+
+    clubs['url'] = clubs['url'].astype('string')
+    # @Todo still everything WIP here!
+    return clubs
