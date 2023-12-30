@@ -26,7 +26,10 @@
 3. There are players with `current_club_id` set on clubs that have recorded 0 players in their squad. **THIS IS A
    PROBLEM.**
 4. `domestic_competition_id` is corresponding to `domestic_league_code` of **competitions** table.
-5. **...**
+5. We will rename:
+   1. `name` into `club_name`
+   2. `url` into `club_url`
+   3. `domestic_competition_id` into `local_competition_code`.
 
 > ###### 3. Should we update the clubs or remove both the records from the two tables ?
 ---
@@ -51,7 +54,10 @@
    to check carefully where they are used in the dataset!
 5. We should maintain `country_name` renamed as `country`, meanwhile `country_id` will be lost.
 6. `domestic_competition_id` is equal to `domestic_league_code` in case of local competitions (e.g. *Italian Cup == IT1*).
-7. **...**
+7. We will rename:
+   1. `name` into `competition_name`
+   2. `type` into `competition_type`
+   3. `url` into `competition_url`
 
 > ###### 2. What should we maintain between *country_id* and _country_name_?
 > ###### 3. Which column between *'competition_code'* and *'name'* should we maintain?
@@ -65,7 +71,9 @@
 2. `aggregate` represents the final result of a game. Usually, given as *"<home_goals>:<away_goals>"*.
 3. All the `aggregate` are consistent with data of goals. **We decided to DISCARD `aggregate`** and
    use `home_club_position` and `away_club_position`.
-4. **...**
+4. We will rename:
+   1. `date` into `game_date`
+   2. `url` into `game_url`
 
 ---
 
@@ -94,7 +102,13 @@
 9. `current_club_name` and `current_club_domestic_competition_id` can be dropped because we see them from the club side.
 10. `position` column has to be `None` when it has *value=='Missing'*. (There is a *@todo* commented code cell in
     *Players.ipynb*)
-11. **...**
+11. We will rename the following columns:
+    1. `market_value_in_eur` to `value_eur`
+    2. `highest_market_value_in_eur` to `top_value_eur`
+12. We will rename:
+   1. `name` into `player_name`
+   2. `type` into `player_type`
+   3. `url` into `player_url`
 
 > ###### See *3.* of Clubs to resolve the issue about club_ids!
 ---
