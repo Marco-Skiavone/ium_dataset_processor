@@ -40,7 +40,6 @@
    centralized on **clubs** view.
 
 > ###### Surely, we could choose to maintain here many fields of _games_ and remove them from **games table**.
-
 ---
 
 # Competitions:
@@ -106,9 +105,9 @@
     1. `market_value_in_eur` to `value_eur`
     2. `highest_market_value_in_eur` to `top_value_eur`
 12. We will rename:
-   1. `name` into `player_name`
-   2. `type` into `player_type`
-   3. `url` into `player_url`
+    1. `name` into `player_name`
+    2. `type` into `player_type`
+    3. `url` into `player_url`
 
 > ###### See *3.* of Clubs to resolve the issue about club_ids!
 ---
