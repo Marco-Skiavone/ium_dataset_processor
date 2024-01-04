@@ -31,6 +31,7 @@
    3. `domestic_competition_id` into `local_competition_code`.
    
 > ###### 3. Should we update the clubs or remove both the records from the two tables ?
+> ###### The wrong sized clubs COULD HAVE PROBABLY CEASED TO EXIST!
 ---
 
 # Club_games:

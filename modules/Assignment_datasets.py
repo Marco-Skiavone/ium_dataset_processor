@@ -62,18 +62,12 @@ def clean_clubs(clubs):
     clubs = clubs.drop(columns=['coach_name', 'total_market_value', 'club_code'])    # Both are null
     clubs['name'] = clubs['name'].astype('string')
     clubs['domestic_competition_id'] = clubs['domestic_competition_id'].astype('string')
-
-    # @Todo 1. resolve squad == 0;
-    # players = get_players()
-    # clubs['squad_size'] = clubs['squad_size'].apply(lambda x: search_squad_players(x, players))
-    # players = None
-    # @Todo 2. resolve foreigners percentage when Nan;
-    # clubs['foreigners_percentage'] = clubs['foreigners_percentage'].apply(lambda x: )
+    # If squad_size == 0 -> The club could not exist anymore. We have not touched these value.
+    clubs.fillna({'foreigners_percentage': 0}, inplace=True)
     clubs['stadium_name'] = clubs['stadium_name'].astype('string')
     clubs.at[409, 'stadium_seats'] = 4851       # correcting the only 0 value!
-
     clubs['url'] = clubs['url'].astype('string')
-    # @Todo still everything WIP here!
+    # @Todo Check if there is something to do yet!
     clubs.rename(columns={'name': 'club_name', 'domestic_competition_id': 'local_competition_code', 'url': 'club_url'},
                  inplace=True)
     return clubs
