@@ -93,3 +93,17 @@ def clean_competitions(competitions):
     competitions.rename(columns={'name': 'competition_name', 'type': 'competition_type', 'url': 'competition_url'},
                         inplace=True)
     return competitions
+
+
+def clean_game_events(game_events):
+    game_events = game_events.drop(columns=['date'])
+    # Casting types
+    game_events['game_event_id'] = game_events['game_event_id'].astype('string')
+    game_events['type'] = game_events['type'].astype('string')
+    game_events['description'] = game_events['description'].astype('string')
+    game_events['player_in_id'] = game_events['player_in_id'].astype('int')
+    game_events['player_assist_id'] = game_events['player_assist_id'].astype('int')
+    # @Todo Fixing 'description'
+
+    game_events.rename(columns={'type': 'game_event_type'}, inplace=True)
+    return game_events
