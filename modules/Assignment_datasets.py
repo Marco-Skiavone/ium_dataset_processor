@@ -62,12 +62,11 @@ def clean_clubs(clubs):
     clubs = clubs.drop(columns=['coach_name', 'total_market_value', 'club_code'])    # Both are null
     clubs['name'] = clubs['name'].astype('string')
     clubs['domestic_competition_id'] = clubs['domestic_competition_id'].astype('string')
-    clubs.rename(columns={'name': 'club_name', 'domestic_competition_id': 'local_competition_code', 'url': 'club_url'},
-                 inplace=True)
+
     # @Todo 1. resolve squad == 0;
-    players = get_players()
-    clubs['squad_size'] = clubs['squad_size'].apply(lambda x: search_squad_players(x, players))
-    players = None
+    # players = get_players()
+    # clubs['squad_size'] = clubs['squad_size'].apply(lambda x: search_squad_players(x, players))
+    # players = None
     # @Todo 2. resolve foreigners percentage when Nan;
     # clubs['foreigners_percentage'] = clubs['foreigners_percentage'].apply(lambda x: )
     clubs['stadium_name'] = clubs['stadium_name'].astype('string')
@@ -75,9 +74,22 @@ def clean_clubs(clubs):
 
     clubs['url'] = clubs['url'].astype('string')
     # @Todo still everything WIP here!
+    clubs.rename(columns={'name': 'club_name', 'domestic_competition_id': 'local_competition_code', 'url': 'club_url'},
+                 inplace=True)
     return clubs
 
 
-def search_squad_players(x, players):
-
-    return x
+def clean_competitions(competitions):
+    competitions = competitions.drop(columns=['competition_code', 'country_id', 'confederation'])
+    # Casting types
+    competitions['competition_id'] = competitions['competition_id'].astype('string')
+    competitions['name'] = competitions['name'].astype('string')
+    competitions['sub_type'] = competitions['sub_type'].astype('string')
+    competitions['type'] = competitions['type'].astype('string')
+    competitions['country_name'] = competitions['country_name'].astype('string')
+    competitions['domestic_league_code'] = competitions['domestic_league_code'].astype('string')
+    competitions['url'] = competitions['url'].astype('string')
+    # Renaming columns
+    competitions.rename(columns={'name': 'competition_name', 'type': 'competition_type', 'url': 'competition_url'},
+                        inplace=True)
+    return competitions
