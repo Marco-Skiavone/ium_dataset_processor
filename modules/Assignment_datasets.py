@@ -70,8 +70,11 @@ def clean_clubs(clubs):
     clubs['domestic_competition_id'] = clubs['domestic_competition_id'].astype('string')
     # If squad_size == 0 -> The club could not exist anymore. We have not touched these value.
     clubs.fillna({'foreigners_percentage': 0}, inplace=True)
+    clubs['foreigners_percentage'] = clubs['foreigners_percentage'].astype('int')
     clubs['stadium_name'] = clubs['stadium_name'].astype('string')
     clubs.at[409, 'stadium_seats'] = 4851       # correcting the only 0 value!
+    clubs['net_transfer_record'] = clubs['net_transfer_record'].astype('string')
+    clubs['net_transfer_record'] = (clubs['net_transfer_record'].apply(clean_net_records)).astype('int')
     clubs['url'] = clubs['url'].astype('string')
     clubs.rename(columns={'name': 'club_name', 'domestic_competition_id': 'local_competition_code', 'url': 'club_url'},
                  inplace=True)
@@ -92,6 +95,9 @@ def clean_net_records(x):
         value *= 1_000_000
     elif 'k' in x:
         value *= 1000
+    value = int(value)
+    if value % 2 != 0:
+        value = (value + 1 if value > 0 else value - 1)
     return int(value)
 
 
