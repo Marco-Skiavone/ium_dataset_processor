@@ -50,17 +50,24 @@ def clean_appearance(appearance):
 
 
 def clean_club_games(club_games):
-    # Todo check ALL the method, please!
-    club_games = club_games[['game_id', 'club_id', 'own_goals', 'own_position',
-                             'own_manager_name', 'hosting', 'is_win']]
+    club_games = club_games.drop(columns=['opponent_id', 'opponent_goals', 'opponent_position',
+                                          'opponent_manager_name'])
     club_games.loc[club_games['own_position'].isnull(), 'own_position'] = -1
     club_games['own_position'] = club_games['own_position'].astype('int')
     club_games['own_manager_name'] = club_games['own_manager_name'].astype('string')
     club_games['hosting'] = (club_games['hosting'].apply(lambda x: bool(x.__str__() == 'Home'))).astype('bool')
     club_games['is_win'] = (club_games['is_win'].apply(lambda x: bool(x == 1))).astype('bool')
-    # Todo Here we have to add 'club_formation' column from games!
-    # club_formation is divided into 2 columns: home_c. and away_c.
-    # Every club_games tuple is linked up to only 1 value.
+    games = get_games()
+    games_subset_1 = games[['game_id', 'home_club_id', 'home_club_formation']].copy()
+    games_subset_2 = games[['game_id', 'away_club_id', 'away_club_formation']].copy()
+    games_subset_1 = games_subset_1.rename(columns={'home_club_id': 'club_id', 'home_club_formation': 'club_formation'})
+    games_subset_2 = games_subset_2.rename(columns={'away_club_id': 'club_id', 'away_club_formation': 'club_formation'})
+    game_subset = pd.concat([games_subset_1, games_subset_2], axis=0)
+    games_subset_1 = None
+    games_subset_2 = None
+    club_games = pd.merge(club_games, game_subset, on=['game_id', 'club_id'])
+    games_subset = None
+    games = None
     return club_games
 
 
@@ -132,4 +139,5 @@ def clean_game_events(game_events):
 
 
 def clean_game_lineups(game_lineups):
+    game_lineups = game_lineups.drop(columns=[])
     return game_lineups
