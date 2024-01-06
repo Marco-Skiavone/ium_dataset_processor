@@ -92,9 +92,11 @@
 # Game_lineups:
 
 1. The `number` column has few values set to _'-'_. We converted them to _None_ and set the column to float.
-2. All players position is properly set. We could decide to put this set in **MongoDB**.
+2. We have **consistency issues (around 14k tuples!)** with `player_id` and `player_name` columns!
+3. All players position is properly set. We could decide to put this set in **MongoDB**.
 
-> > ### End of analysis
+> ###### 2. What should we do with that !?
+> > ### Analysis in progress 
 ---
 
 # Games:

@@ -139,5 +139,13 @@ def clean_game_events(game_events):
 
 
 def clean_game_lineups(game_lineups):
-    game_lineups = game_lineups.drop(columns=[])
+    game_lineups['game_lineups_id'] = game_lineups['game_lineups_id'].astype('string')
+    game_lineups['type'] = game_lineups['type'].astype('string')
+    game_lineups['number'].replace('-', -1, inplace=True)
+    game_lineups['number'] = game_lineups['number'].astype('int')
+    # Todo problems with the players_id and names. It needs further studies!
+    game_lineups['player_name'] = game_lineups['player_name'].astype('string')
+    game_lineups['team_captain'] = game_lineups['team_captain'].astype('bool')
+    game_lineups['position'] = game_lineups['position'].astype('string')
+    game_lineups['position'].replace('midfield', 'Midfield', inplace=True)
     return game_lineups
