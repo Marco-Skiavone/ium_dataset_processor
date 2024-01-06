@@ -14,7 +14,8 @@
 4. Remember to change the type of the ***player_name*** column into a *string*.
    (`app['player_name'] = app['player_name'].astype('string')`)
 5. Finally, we must interpolate data and see where to put them.
-6. There are 11 players_id in appearance that are not in players csv
+6. There are **356** players_id rows (with duplicates) in appearance that are not in players csv
+7. There are **42** `players_id` that are not in `players.csv`!
 
 ---
 

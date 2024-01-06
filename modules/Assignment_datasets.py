@@ -38,21 +38,27 @@ def get_players(location=''):
 
 
 def clean_appearance(appearance):
-    appearance['date'] = pd.to_datetime(appearance['date'])
-    appearance['competition_id'] = appearance['competition_id'].astype('string')
-    appearance.dropna(inplace=True)  # @Todo uncompleted
+    appearance = appearance.drop(columns=['date', 'player_name', 'competition_id'])
+    appearance['appearance_id'] = appearance['appearance_id'].astype('string')
+    appearance['red_cards'] = (appearance['red_cards'].apply(lambda x: bool(x))).astype('bool')
+    players = get_players()
+    appearance_to_drop = appearance.query('player_id not in @players["player_id"]', engine="python")
+    appearance = appearance.drop(appearance_to_drop.index.tolist(), axis=0)
+    players = None
+    appearance_to_drop = None
     return appearance
 
 
 def clean_club_games(club_games):
+    # Todo check ALL the method, please!
     club_games = club_games[['game_id', 'club_id', 'own_goals', 'own_position',
                              'own_manager_name', 'hosting', 'is_win']]
-    club_games['own_position'] = club_games['own_position'].apply(lambda x: int(-1 if x != x else int(x)))
+    club_games.loc[club_games['own_position'].isnull(), 'own_position'] = -1
+    club_games['own_position'] = club_games['own_position'].astype('int')
     club_games['own_manager_name'] = club_games['own_manager_name'].astype('string')
-    club_games['hosting'] = club_games['hosting'].apply(lambda x: bool(x.__str__() == 'Home'))
-    club_games['is_win'] = club_games['is_win'].apply(lambda x: bool(x == 1))
-
-    # @Todo Here we have to add 'club_formation' column from games!
+    club_games['hosting'] = (club_games['hosting'].apply(lambda x: bool(x.__str__() == 'Home'))).astype('bool')
+    club_games['is_win'] = (club_games['is_win'].apply(lambda x: bool(x == 1))).astype('bool')
+    # Todo Here we have to add 'club_formation' column from games!
     # club_formation is divided into 2 columns: home_c. and away_c.
     # Every club_games tuple is linked up to only 1 value.
     return club_games
@@ -67,10 +73,26 @@ def clean_clubs(clubs):
     clubs['stadium_name'] = clubs['stadium_name'].astype('string')
     clubs.at[409, 'stadium_seats'] = 4851       # correcting the only 0 value!
     clubs['url'] = clubs['url'].astype('string')
-    # @Todo Check if there is something to do yet!
     clubs.rename(columns={'name': 'club_name', 'domestic_competition_id': 'local_competition_code', 'url': 'club_url'},
                  inplace=True)
     return clubs
+
+
+def clean_net_records(x):
+    if x != x or len(x) == 0:
+        return -1
+    if '€' in x:
+        x = (x[1:] if x[0] == '€' else x[2:])
+    else:
+        return 0
+    value = float(x[:-1])
+    if value != value:
+        raise Exception('Value wrongly set!')
+    if 'm' in x:
+        value *= 1_000_000
+    elif 'k' in x:
+        value *= 1000
+    return int(value)
 
 
 def clean_competitions(competitions):
@@ -97,7 +119,7 @@ def clean_game_events(game_events):
     game_events['description'] = game_events['description'].astype('string')
     game_events['player_in_id'] = game_events['player_in_id'].astype('int')
     game_events['player_assist_id'] = game_events['player_assist_id'].astype('int')
-    # @Todo Fixing 'description'
+    # Todo Fixing 'description'
 
     game_events.rename(columns={'type': 'game_event_type'}, inplace=True)
     return game_events
