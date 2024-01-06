@@ -129,3 +129,7 @@ def clean_game_events(game_events):
 
     game_events.rename(columns={'type': 'game_event_type'}, inplace=True)
     return game_events
+
+
+def clean_game_lineups(game_lineups):
+    return game_lineups
