@@ -96,7 +96,8 @@
 3. All players position is properly set. We could decide to put this set in **MongoDB**.
 
 > ###### 2. What should we do with that !?
-> > ### Analysis in progress 
+> ## Probably the data will be fixed and elaborated via javascript by the client!
+> > ### End of analysis
 ---
 
 # Games:

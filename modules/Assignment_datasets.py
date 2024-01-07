@@ -143,7 +143,7 @@ def clean_game_lineups(game_lineups):
     game_lineups['type'] = game_lineups['type'].astype('string')
     game_lineups['number'].replace('-', -1, inplace=True)
     game_lineups['number'] = game_lineups['number'].astype('int')
-    # Todo problems with the players_id and names. It needs further studies!
+    # players are not consistent with the player_id
     game_lineups['player_name'] = game_lineups['player_name'].astype('string')
     game_lineups['team_captain'] = game_lineups['team_captain'].astype('bool')
     game_lineups['position'] = game_lineups['position'].astype('string')
