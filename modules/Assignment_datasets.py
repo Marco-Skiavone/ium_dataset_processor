@@ -182,40 +182,81 @@ def clean_game_events(game_events):
 
 
 def clean_game_lineups(game_lineups):
-    game_lineups['game_lineups_id'] = game_lineups['game_lineups_id'].astype('string')
-    game_lineups['type'] = game_lineups['type'].astype('string')
-    game_lineups['number'].replace('-', -1, inplace=True)
-    game_lineups['number'] = game_lineups['number'].astype('int')
-    # players are not consistent with the player_id
-    game_lineups['player_name'] = game_lineups['player_name'].astype('string')
-    game_lineups['team_captain'] = game_lineups['team_captain'].astype('bool')
-    game_lineups['position'] = game_lineups['position'].astype('string')
-    game_lineups['position'].replace('midfield', 'Midfield', inplace=True)
+    if game_lineups is not None:
+        game_lineups['game_lineups_id'] = game_lineups['game_lineups_id'].astype('string')
+        game_lineups['type'] = game_lineups['type'].astype('string')
+        game_lineups['number'].replace('-', -1, inplace=True)
+        game_lineups['number'] = game_lineups['number'].astype('int')
+        # players are not consistent with the player_id
+        game_lineups['player_name'] = game_lineups['player_name'].astype('string')
+        game_lineups['team_captain'] = game_lineups['team_captain'].astype('bool')
+        game_lineups['position'] = game_lineups['position'].astype('string')
+        game_lineups['position'].replace('midfield', 'Midfield', inplace=True)
+    else:
+        print('Error occurred reading "game_lineups" dataset')
     return game_lineups
 
 
 def clean_games(games):
-    games.drop(columns=['home_club_id', 'away_club_id', 'home_club_goals', 'away_club_goals', 'home_club_position',
-                        'away_club_position', 'home_club_manager_name', 'away_club_manager_name', 'home_club_formation',
-                        'away_club_formation', 'home_club_name', 'away_club_name', 'competition_type', 'aggregate'],
-               inplace=True)
-    games.replace(float('NaN'), None, inplace=True)
-    games['competition_id'] = games['competition_id'].astype('string')
-    games['round'] = games['round'].astype('string')
-    games['round'] = (games['round'].apply(format_string)).astype('string')
-    games['date'] = pd.to_datetime(games['date'].astype('string'))
-    games['stadium'] = games['stadium'].astype('string')
-    games['attendance'].fillna(-1, inplace=True)
-    games['attendance'] = games['attendance'].astype('int')
-    games['referee'] = games['referee'].astype('string')
-    games['url'] = games['url'].astype('string')
-    games.rename({'date': 'game_date', 'url': 'game_url'}, inplace=True)
+    if games is not None:
+        games.drop(columns=['home_club_id', 'away_club_id', 'home_club_goals', 'away_club_goals', 'home_club_position',
+                            'away_club_position', 'home_club_manager_name', 'away_club_manager_name', 'home_club_formation',
+                            'away_club_formation', 'home_club_name', 'away_club_name', 'competition_type', 'aggregate'],
+                   inplace=True)
+        games.replace(float('NaN'), None, inplace=True)
+        games['competition_id'] = games['competition_id'].astype('string')
+        games['round'] = games['round'].astype('string')
+        games['round'] = (games['round'].apply(format_string)).astype('string')
+        games['date'] = pd.to_datetime(games['date'].astype('string'))
+        games['stadium'] = games['stadium'].astype('string')
+        games['attendance'].fillna(-1, inplace=True)
+        games['attendance'] = games['attendance'].astype('int')
+        games['referee'] = games['referee'].astype('string')
+        games['url'] = games['url'].astype('string')
+        games.rename({'date': 'game_date', 'url': 'game_url'}, inplace=True)
+    else:
+        print('Error occurred reading "games" dataset')
     return games
 
 
 def clean_player_valuations(player_valuations):
+    if player_valuations is not None:
+        player_valuations.drop(columns=['datetime', 'n'], inplace=True)
+        # Todo complete this function
+    else:
+        print('Error occurred reading "player_valuations" dataset')
     return player_valuations
 
 
 def clean_players(players):
+    if players is not None:
+        players.drop(columns=['first_name', 'last_name', 'player_code', 'current_club_name'], inplace=True)
+        players.replace(float('NaN'), None, inplace=True)
+        players['name'] = players['name'].astype('string')
+        players['country_of_birth'] = players['country_of_birth'].astype('string')
+        players['city_of_birth'] = players['city_of_birth'].astype('string')
+        players['country_of_citizenship'] = players['country_of_citizenship'].astype('string')
+        players['date_of_birth'] = pd.to_datetime(players['date_of_birth'].astype('string'))
+        players['sub_position'] = players['sub_position'].astype('string')
+        players['position'] = (players['position'].replace('Missing', None)).astype('string')
+        players['foot'] = players['foot'].astype('string')
+        # Filling NA values with -1 where needed
+        players[['height_in_cm', 'market_value_in_eur', 'highest_market_value_in_eur']] = (
+            players[['height_in_cm', 'market_value_in_eur', 'highest_market_value_in_eur']].fillna(-1))
+        players['height_in_cm'] = ((players['height_in_cm'].apply(lambda x: x if x == -1 or x >= 100 else x * 10))
+                                   .astype('int'))
+        players['market_value_in_eur'] = players['market_value_in_eur'].astype('int')
+        players['highest_market_value_in_eur'] = players['highest_market_value_in_eur'].astype('int')
+        players['contract_expiration_date'] = pd.to_datetime(players['contract_expiration_date'].astype('string'))
+        players['agent_name'] = players['agent_name'].astype('string')
+        players['image_url'] = players['image_url'].astype('string')
+        players['url'] = players['url'].astype('string')
+        players['current_club_domestic_competition_id'] = (players['current_club_domestic_competition_id'].
+                                                           astype('string'))
+        # Renaming columns
+        players.rename(columns={'name': 'player_name', 'type': 'player_type', 'market_value_in_eur': 'value_eur',
+                                'highest_market_value_in_eur': 'top_value_eur', 'url': 'player_url',
+                                'current_club_domestic_competition_id': 'current_dom_competition_id'}, inplace=True)
+    else:
+        print('Error occurred reading "players" dataset')
     return players

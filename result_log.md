@@ -152,4 +152,6 @@ occurred event
 3. We renamed the `player_club_domestic_competition_id` column in something shorter (`competition_id` for now).
 4. It seems that `n` column values are all ***1***. I can't figure out what it represents, so we could remove the
    column.
-5. **...**
+5. we will rename:
+    1. `player_club_domestic_competition_id` into `current_dom_competition_id`
+6. 
