@@ -174,9 +174,11 @@ def clean_game_events(game_events):
         game_events.rename(columns={'type': 'event_type',
                                     'description': 'event_description'},
                            inplace=True)
-        return game_events
-    print('Error occurred reading game_events dataset')
-    return None
+
+    else:
+        print('Error occurred reading game_events dataset')
+
+    return game_events
 
 
 def clean_game_lineups(game_lineups):

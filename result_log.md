@@ -88,7 +88,8 @@ not.
 
 > ###### Cleaned version:
 > 1. Removed all unnecessary `', '`
-> 2. `description` column now is a list of strings, each of them gives further info about the occurred event
+> 2. `description` column is string type, made of segment divided by commas, each of them gives further info about the
+occurred event
 > 3. All `'Not reported'` and `NaN` have been normalized to `None`
 > > ### End of analysis
 ---
