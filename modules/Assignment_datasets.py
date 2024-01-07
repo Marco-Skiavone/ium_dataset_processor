@@ -124,32 +124,28 @@ def clean_competitions(competitions):
     return competitions
 
 
-def format_description(description_value=''):
-    if description_value is not None:
-        description_list = description_value.split(', ')
-        return [format_string(des_elem) for des_elem in description_list]
-    else:
-        return description_value
-
-
-def format_string(des_elem=''):
-    '''
-    :param des_elem: non-null string. Replace all numbers followed by a dot at the beginning of the string
-                    with the correct ordinal version
-    :return: modified des_elem string
-    '''
+def format_string(des_elem = ''):
     # pre: des_elem is not None
-    if des_elem[0].isdigit():
-        substr = des_elem.split(".")
-        if substr[0][0] == '1' and len(substr[0]) == 1:
-            substr[0] = substr[0] + 'st'
-        elif substr[0][0] == '2' and len(substr[0]) == 1:
-            substr[0] = substr[0] + 'nd'
-        elif substr[0][0] == '3' and len(substr[0]) == 1:
-            substr[0] = substr[0] + 'rd'
-        else:
-            substr[0] = substr[0] + 'th'
-        return ''.join(substr)
+    if des_elem is not None and len(des_elem) > 0:
+        for i in range(0, len(des_elem)-1):
+            # print(f'i= {i}, len= {len(des_elem)}')
+            if des_elem[i].isdigit():
+                if des_elem[i] == '1' and des_elem[i+1] == '.':
+                    des_elem = des_elem[:i+1] + 'st' + des_elem[i+2:]
+                    i = i+2
+                elif des_elem[i] == '2' and des_elem[i+1] == '.':
+                    des_elem = des_elem[:i+1] + 'nd' + des_elem[i+2:]
+                    i = i+2
+                elif des_elem[i] == '3' and des_elem[i+1] == '.':
+                    des_elem = des_elem[:i+1] + 'rd' + des_elem[i+2:]
+                    i = i+2
+                else:
+                    while i < len(des_elem) and des_elem[i].isdigit():
+                        i = i+1
+                    if des_elem[i] == '.':
+                        des_elem = des_elem[:i] + 'th' + des_elem[i+1:]
+                        i = i+2
+        return des_elem
     return des_elem
 
 
@@ -161,7 +157,7 @@ def clean_game_events(game_events):
         # Formatting description
         game_events['description'].replace([float('NaN'), ', Not reported'], None, inplace=True)
         target = game_events['description'].apply(lambda x: x if x is None else x[2:] if x[0] == ',' else x)
-        target = target.apply(format_description)
+        target = target.apply(format_string)
         game_events['description'].update(target)
 
         # Formatting player_in_id
