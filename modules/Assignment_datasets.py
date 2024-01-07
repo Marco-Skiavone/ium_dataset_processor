@@ -133,14 +133,19 @@ def format_description(description_value=''):
 
 
 def format_string(des_elem=''):
+    '''
+    :param des_elem: non-null string. Replace all numbers followed by a dot at the beginning of the string
+                    with the correct ordinal version
+    :return: modified des_elem string
+    '''
     # pre: des_elem is not None
     if des_elem[0].isdigit():
         substr = des_elem.split(".")
-        if substr[0][0] == '1':
+        if substr[0][0] == '1' and len(substr[0]) == 1:
             substr[0] = substr[0] + 'st'
-        elif substr[0][0] == '2':
+        elif substr[0][0] == '2' and len(substr[0]) == 1:
             substr[0] = substr[0] + 'nd'
-        elif substr[0][0] == '2':
+        elif substr[0][0] == '3' and len(substr[0]) == 1:
             substr[0] = substr[0] + 'rd'
         else:
             substr[0] = substr[0] + 'th'
@@ -168,7 +173,6 @@ def clean_game_events(game_events):
         game_events['description'] = game_events['description'].astype('string')
         game_events['player_in_id'] = game_events['player_in_id'].astype('int')
         game_events['player_assist_id'] = game_events['player_assist_id'].astype('int')
-
 
         # Renaming columns
         game_events.rename(columns={'type': 'event_type',
