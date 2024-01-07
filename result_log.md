@@ -109,8 +109,7 @@ not.
 1. `home_club_position` and `away_club_position` are relative to the **ranked list** of football clubs **AT THE MOMENT
    IN WHICH THE GAME STARTS!**
 2. `aggregate` represents the final result of a game. Usually, given as *"<home_goals>:<away_goals>"*.
-3. All the `aggregate` are consistent with data of goals. **We decided to DISCARD `aggregate`** and
-   use `home_club_position` and `away_club_position`.
+3. All the `aggregate` are consistent with data of goals.
 4. We will rename:
     1. `date` into `game_date`
     2. `url` into `game_url`

@@ -194,3 +194,30 @@ def clean_game_lineups(game_lineups):
     game_lineups['position'] = game_lineups['position'].astype('string')
     game_lineups['position'].replace('midfield', 'Midfield', inplace=True)
     return game_lineups
+
+
+def clean_games(games):
+    games.drop(columns=['home_club_id', 'away_club_id', 'home_club_goals', 'away_club_goals', 'home_club_position',
+                        'away_club_position', 'home_club_manager_name', 'away_club_manager_name', 'home_club_formation',
+                        'away_club_formation', 'home_club_name', 'away_club_name', 'competition_type', 'aggregate'],
+               inplace=True)
+    games.replace(float('NaN'), None, inplace=True)
+    games['competition_id'] = games['competition_id'].astype('string')
+    games['round'] = games['round'].astype('string')
+    games['round'] = (games['round'].apply(format_string)).astype('string')
+    games['date'] = pd.to_datetime(games['date'].astype('string'))
+    games['stadium'] = games['stadium'].astype('string')
+    games['attendance'].fillna(-1, inplace=True)
+    games['attendance'] = games['attendance'].astype('int')
+    games['referee'] = games['referee'].astype('string')
+    games['url'] = games['url'].astype('string')
+    games.rename({'date': 'game_date', 'url': 'game_url'}, inplace=True)
+    return games
+
+
+def clean_player_valuations(player_valuations):
+    return player_valuations
+
+
+def clean_players(players):
+    return players
