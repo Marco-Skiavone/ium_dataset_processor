@@ -10,7 +10,9 @@
 2. **Note:**
    the **Appearance_id** is the combination of "*<game_id>*_*<player_id>*". $\rightarrow$ **This will need a type
    definition!**
-3. We have many ***player_name*** that are **None** and that does not intersect with the ***player_id*** of the **not-Null** rows, neither with the ids of the *players.csv* dataset $\rightarrow$ We have to decide if remove them or not.
+3. We have many ***player_name*** that are **None** and that does not intersect with the ***player_id*** of the
+**not-Null** rows, neither with the ids of the *players.csv* dataset $\rightarrow$ We have to decide if remove them or
+not.
 4. Remember to change the type of the ***player_name*** column into a *string*.
    (`app['player_name'] = app['player_name'].astype('string')`)
 5. Finally, we must interpolate data and see where to put them.
@@ -72,7 +74,7 @@
 1. this sets represents events occurred during the game. That is way it has many references to other ids.
 2. description has a hardly readable input. We **SHOULD** elaborate it.
 3. In description, the number N followed by a dot is the Nth time someone does something in the following context.
-4. It seems that only `substitutions` type has `not reported` value
+4. It seems that only `substitutions` type has `not reported` and `NaN` value
 
 > There are different types of events:
 > - cards: type of card: ?(cause of card)
@@ -84,8 +86,10 @@
 > #### **Example:**
 > ", Right-footed shot, 2. Tournament Goal Assist: , Pass, 1. Tournament Assist"
 
-> ###### 2. We should **reformat** all the description column to be more readable.
-> ###### 3. There are _None_ values and ", Not reported" values, **all in** `substitutions` type, that should be set to _None_.
+> ###### Cleaned version:
+> 1. Removed all unnecessary `', '`
+> 2. `description` column now is a list of strings, each of them gives further info about the occurred event
+> 3. All `'Not reported'` and `NaN` have been normalized to `None`
 > > ### End of analysis
 ---
 

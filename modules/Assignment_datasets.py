@@ -124,18 +124,59 @@ def clean_competitions(competitions):
     return competitions
 
 
-def clean_game_events(game_events):
-    game_events = game_events.drop(columns=['date'])
-    # Casting types
-    game_events['game_event_id'] = game_events['game_event_id'].astype('string')
-    game_events['type'] = game_events['type'].astype('string')
-    game_events['description'] = game_events['description'].astype('string')
-    game_events['player_in_id'] = game_events['player_in_id'].astype('int')
-    game_events['player_assist_id'] = game_events['player_assist_id'].astype('int')
-    # Todo Fixing 'description'
+def format_description(description_value=''):
+    if description_value is not None:
+        description_list = description_value.split(', ')
+        return [format_string(des_elem) for des_elem in description_list]
+    else:
+        return description_value
 
-    game_events.rename(columns={'type': 'game_event_type'}, inplace=True)
-    return game_events
+
+def format_string(des_elem=''):
+    # pre: des_elem is not None
+    if des_elem[0].isdigit():
+        substr = des_elem.split(".")
+        if substr[0][0] == '1':
+            substr[0] = substr[0] + 'st'
+        elif substr[0][0] == '2':
+            substr[0] = substr[0] + 'nd'
+        elif substr[0][0] == '2':
+            substr[0] = substr[0] + 'rd'
+        else:
+            substr[0] = substr[0] + 'th'
+        return ''.join(substr)
+    return des_elem
+
+
+def clean_game_events(game_events):
+    if game_events is not None:
+        # Removing unnecessary columns and values
+        game_events = game_events.drop(columns=['date'])
+
+        # Formatting description
+        game_events['description'].replace([float('NaN'), ', Not reported'], None, inplace=True)
+        target = game_events['description'].apply(lambda x: x if x is None else x[2:] if x[0] == ',' else x)
+        target = target.apply(format_description)
+        game_events['description'].update(target)
+
+        # Formatting player_in_id
+        game_events.fillna({'player_in_id': -1, 'player_assist_id': -1}, inplace=True)
+
+        # Casting types
+        game_events['game_event_id'] = game_events['game_event_id'].astype('string')
+        game_events['type'] = game_events['type'].astype('string')
+        game_events['description'] = game_events['description'].astype('string')
+        game_events['player_in_id'] = game_events['player_in_id'].astype('int')
+        game_events['player_assist_id'] = game_events['player_assist_id'].astype('int')
+
+
+        # Renaming columns
+        game_events.rename(columns={'type': 'event_type',
+                                    'description': 'event_description'},
+                           inplace=True)
+        return game_events
+    print('Error occurred reading game_events dataset')
+    return None
 
 
 def clean_game_lineups(game_lineups):
