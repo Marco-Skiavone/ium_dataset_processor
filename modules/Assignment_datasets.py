@@ -154,7 +154,7 @@ def format_string(des_elem = ''):
                 else:
                     while i < len(des_elem) and des_elem[i].isdigit():
                         i = i+1
-                    if des_elem[i] == '.':
+                    if i < len(des_elem) and des_elem[i] == '.':
                         des_elem = des_elem[:i] + 'th' + des_elem[i+1:]
                         i = i+2
         return des_elem
