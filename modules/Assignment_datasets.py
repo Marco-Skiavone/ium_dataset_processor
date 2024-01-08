@@ -38,53 +38,62 @@ def get_players(location=''):
 
 
 def clean_appearance(appearance):
-    appearance = appearance.drop(columns=['date', 'player_name', 'competition_id'])
-    appearance['appearance_id'] = appearance['appearance_id'].astype('string')
-    appearance['red_cards'] = (appearance['red_cards'].apply(lambda x: bool(x))).astype('bool')
-    players = get_players()
-    appearance_to_drop = appearance.query('player_id not in @players["player_id"]', engine="python")
-    appearance = appearance.drop(appearance_to_drop.index.tolist(), axis=0)
-    players = None
-    appearance_to_drop = None
+    if appearance is not None:
+        appearance = appearance.drop(columns=['date', 'player_name', 'competition_id'])
+        appearance['appearance_id'] = appearance['appearance_id'].astype('string')
+        appearance['red_cards'] = (appearance['red_cards'].apply(lambda x: bool(x))).astype('bool')
+        players = get_players()
+        appearance_to_drop = appearance.query('player_id not in @players["player_id"]', engine="python")
+        appearance = appearance.drop(appearance_to_drop.index.tolist(), axis=0)
+        players = None
+        appearance_to_drop = None
+    else:
+        print('Error occurred reading "appearance" dataset')
     return appearance
 
 
 def clean_club_games(club_games):
-    club_games = club_games.drop(columns=['opponent_id', 'opponent_goals', 'opponent_position',
-                                          'opponent_manager_name'])
-    club_games.loc[club_games['own_position'].isnull(), 'own_position'] = -1
-    club_games['own_position'] = club_games['own_position'].astype('int')
-    club_games['own_manager_name'] = club_games['own_manager_name'].astype('string')
-    club_games['hosting'] = (club_games['hosting'].apply(lambda x: bool(x.__str__() == 'Home'))).astype('bool')
-    club_games['is_win'] = (club_games['is_win'].apply(lambda x: bool(x == 1))).astype('bool')
-    games = get_games()
-    games_subset_1 = games[['game_id', 'home_club_id', 'home_club_formation']].copy()
-    games_subset_2 = games[['game_id', 'away_club_id', 'away_club_formation']].copy()
-    games_subset_1 = games_subset_1.rename(columns={'home_club_id': 'club_id', 'home_club_formation': 'club_formation'})
-    games_subset_2 = games_subset_2.rename(columns={'away_club_id': 'club_id', 'away_club_formation': 'club_formation'})
-    game_subset = pd.concat([games_subset_1, games_subset_2], axis=0)
-    games_subset_1 = None
-    games_subset_2 = None
-    club_games = pd.merge(club_games, game_subset, on=['game_id', 'club_id'])
-    games_subset = None
-    games = None
+    if club_games is not None:
+        club_games = club_games.drop(columns=['opponent_id', 'opponent_goals', 'opponent_position',
+                                              'opponent_manager_name'])
+        club_games.loc[club_games['own_position'].isnull(), 'own_position'] = -1
+        club_games['own_position'] = club_games['own_position'].astype('int')
+        club_games['own_manager_name'] = club_games['own_manager_name'].astype('string')
+        club_games['hosting'] = (club_games['hosting'].apply(lambda x: bool(x.__str__() == 'Home'))).astype('bool')
+        club_games['is_win'] = (club_games['is_win'].apply(lambda x: bool(x == 1))).astype('bool')
+        games = get_games()
+        games_subset_1 = games[['game_id', 'home_club_id', 'home_club_formation']].copy()
+        games_subset_2 = games[['game_id', 'away_club_id', 'away_club_formation']].copy()
+        games_subset_1 = games_subset_1.rename(columns={'home_club_id': 'club_id', 'home_club_formation': 'club_formation'})
+        games_subset_2 = games_subset_2.rename(columns={'away_club_id': 'club_id', 'away_club_formation': 'club_formation'})
+        game_subset = pd.concat([games_subset_1, games_subset_2], axis=0)
+        games_subset_1 = None
+        games_subset_2 = None
+        club_games = pd.merge(club_games, game_subset, on=['game_id', 'club_id'])
+        games_subset = None
+        games = None
+    else:
+        print('Error occurred reading "club_games" dataset')
     return club_games
 
 
 def clean_clubs(clubs):
-    clubs = clubs.drop(columns=['coach_name', 'total_market_value', 'club_code'])    # Both are null
-    clubs['name'] = clubs['name'].astype('string')
-    clubs['domestic_competition_id'] = clubs['domestic_competition_id'].astype('string')
-    # If squad_size == 0 -> The club could not exist anymore. We have not touched these value.
-    clubs.fillna({'foreigners_percentage': 0}, inplace=True)
-    clubs['foreigners_percentage'] = clubs['foreigners_percentage'].astype('int')
-    clubs['stadium_name'] = clubs['stadium_name'].astype('string')
-    clubs.at[409, 'stadium_seats'] = 4851       # correcting the only 0 value!
-    clubs['net_transfer_record'] = clubs['net_transfer_record'].astype('string')
-    clubs['net_transfer_record'] = (clubs['net_transfer_record'].apply(clean_net_records)).astype('int')
-    clubs['url'] = clubs['url'].astype('string')
-    clubs.rename(columns={'name': 'club_name', 'domestic_competition_id': 'local_competition_code', 'url': 'club_url'},
-                 inplace=True)
+    if clubs is not None:
+        clubs = clubs.drop(columns=['coach_name', 'total_market_value', 'club_code'])    # Both are null
+        clubs['name'] = clubs['name'].astype('string')
+        clubs['domestic_competition_id'] = clubs['domestic_competition_id'].astype('string')
+        # If squad_size == 0 -> The club could not exist anymore. We have not touched these value.
+        clubs.fillna({'foreigners_percentage': 0}, inplace=True)
+        clubs['foreigners_percentage'] = clubs['foreigners_percentage'].astype('int')
+        clubs['stadium_name'] = clubs['stadium_name'].astype('string')
+        clubs.at[409, 'stadium_seats'] = 4851       # correcting the only 0 value!
+        clubs['net_transfer_record'] = clubs['net_transfer_record'].astype('string')
+        clubs['net_transfer_record'] = (clubs['net_transfer_record'].apply(clean_net_records)).astype('int')
+        clubs['url'] = clubs['url'].astype('string')
+        clubs.rename(columns={'name': 'club_name', 'domestic_competition_id': 'local_competition_code', 'url': 'club_url'},
+                     inplace=True)
+    else:
+        print('Error occurred reading "clubs" dataset')
     return clubs
 
 
@@ -109,18 +118,21 @@ def clean_net_records(x):
 
 
 def clean_competitions(competitions):
-    competitions = competitions.drop(columns=['competition_code', 'country_id', 'confederation'])
-    # Casting types
-    competitions['competition_id'] = competitions['competition_id'].astype('string')
-    competitions['name'] = competitions['name'].astype('string')
-    competitions['sub_type'] = competitions['sub_type'].astype('string')
-    competitions['type'] = competitions['type'].astype('string')
-    competitions['country_name'] = competitions['country_name'].astype('string')
-    competitions['domestic_league_code'] = competitions['domestic_league_code'].astype('string')
-    competitions['url'] = competitions['url'].astype('string')
-    # Renaming columns
-    competitions.rename(columns={'name': 'competition_name', 'type': 'competition_type', 'url': 'competition_url'},
-                        inplace=True)
+    if competitions is not None:
+        competitions = competitions.drop(columns=['competition_code', 'country_id', 'confederation'])
+        # Casting types
+        competitions['competition_id'] = competitions['competition_id'].astype('string')
+        competitions['name'] = competitions['name'].astype('string')
+        competitions['sub_type'] = competitions['sub_type'].astype('string')
+        competitions['type'] = competitions['type'].astype('string')
+        competitions['country_name'] = competitions['country_name'].astype('string')
+        competitions['domestic_league_code'] = competitions['domestic_league_code'].astype('string')
+        competitions['url'] = competitions['url'].astype('string')
+        # Renaming columns
+        competitions.rename(columns={'name': 'competition_name', 'type': 'competition_type', 'url': 'competition_url'},
+                            inplace=True)
+    else:
+        print('Error occurred reading "competitions" dataset')
     return competitions
 
 
@@ -221,9 +233,14 @@ def clean_player_valuations(player_valuations):
     if player_valuations is not None:
         player_valuations.drop(columns=['datetime', 'n'], inplace=True)
         # Todo complete this function
-
+        player_valuations['last_season'] = player_valuations['last_season'].astype('int')
+        player_valuations['date'] = pd.to_datetime(player_valuations['date'].astype('string'))
+        player_valuations['dateweek'] = pd.to_datetime(player_valuations['dateweek'].astype('string'))
+        player_valuations['player_club_domestic_competition_id'] = (
+            player_valuations['player_club_domestic_competition_id'].astype('string'))
         # Renaming columns
-        player_valuations.rename(columns={'player_club_domestic_competition_id': 'current_dom_competition_code',
+        player_valuations.rename(columns={'dateweek': 'date_week',
+                                          'player_club_domestic_competition_id': 'current_dom_competition_code',
                                           'market_value_in_eur': 'market_value_eur'}, inplace=True)
     else:
         print('Error occurred reading "player_valuations" dataset')

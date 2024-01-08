@@ -153,7 +153,8 @@ occurred event
 4. It seems that `n` column values are all ***1***. I can't figure out what it represents, so we could remove the
    column.
 5. we will rename:
-    1. `player_club_domestic_competition_id` into `current_dom_competition_code`
-    2. `market_value_in_eur` into `market_value_eur`
+   1.`dateweek` into `date_week`
+   2`player_club_domestic_competition_id` into `current_dom_competition_code`
+   3`market_value_in_eur` into `market_value_eur`
     
 > > ### End of analysis 
