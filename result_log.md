@@ -149,9 +149,11 @@ occurred event
 
 1. `date` and `datetime` columns have the **same values**. $\rightarrow$ we removed the `datetime` columns.
 2. `date` and `dateweek` columns have different values in **almost half of cases**, so they must be not the same thing.
-3. We renamed the `player_club_domestic_competition_id` column in something shorter (`competition_id` for now).
+3. We renamed the `player_club_domestic_competition_id` column in something shorter.
 4. It seems that `n` column values are all ***1***. I can't figure out what it represents, so we could remove the
    column.
 5. we will rename:
-    1. `player_club_domestic_competition_id` into `current_dom_competition_id`
-6. 
+    1. `player_club_domestic_competition_id` into `current_dom_competition_code`
+    2. `market_value_in_eur` into `market_value_eur`
+    
+> > ### End of analysis 

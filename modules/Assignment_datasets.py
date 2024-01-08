@@ -174,10 +174,8 @@ def clean_game_events(game_events):
         game_events.rename(columns={'type': 'event_type',
                                     'description': 'event_description'},
                            inplace=True)
-
     else:
-        print('Error occurred reading game_events dataset')
-
+        print('Error occurred reading "game_events" dataset')
     return game_events
 
 
@@ -200,9 +198,9 @@ def clean_game_lineups(game_lineups):
 def clean_games(games):
     if games is not None:
         games.drop(columns=['home_club_id', 'away_club_id', 'home_club_goals', 'away_club_goals', 'home_club_position',
-                            'away_club_position', 'home_club_manager_name', 'away_club_manager_name', 'home_club_formation',
-                            'away_club_formation', 'home_club_name', 'away_club_name', 'competition_type', 'aggregate'],
-                   inplace=True)
+                            'away_club_position', 'home_club_manager_name', 'away_club_manager_name',
+                            'home_club_formation', 'away_club_formation', 'home_club_name', 'away_club_name',
+                            'competition_type', 'aggregate'], inplace=True)
         games.replace(float('NaN'), None, inplace=True)
         games['competition_id'] = games['competition_id'].astype('string')
         games['round'] = games['round'].astype('string')
@@ -223,6 +221,10 @@ def clean_player_valuations(player_valuations):
     if player_valuations is not None:
         player_valuations.drop(columns=['datetime', 'n'], inplace=True)
         # Todo complete this function
+
+        # Renaming columns
+        player_valuations.rename(columns={'player_club_domestic_competition_id': 'current_dom_competition_code',
+                                          'market_value_in_eur': 'market_value_eur'}, inplace=True)
     else:
         print('Error occurred reading "player_valuations" dataset')
     return player_valuations
