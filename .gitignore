@@ -1,7 +1,13 @@
 .idea
-Assignment_Data_2023-2024
-Assignment_Data_2023-2024/*.csv
 .ipynb_checkpoints/*
 .ipynb_checkpoints
 __pycache__/*
 __pycache__
+
+Assignment_Data_2023-2024
+Assignment_Data_2023-2024/*.csv
+
+Cleaned_Json
+Cleaned_Json/*.json
+
+temp_file_for_testing.ipynb
