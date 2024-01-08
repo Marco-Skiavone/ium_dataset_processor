@@ -1,7 +1,7 @@
 import pandas as pd
 
 
-def get_appearance(location='', apply_func=lambda x: x):
+def get_appearances(location='', apply_func=lambda x: x):
     return apply_func(pd.read_csv(location + 'Assignment_Data_2023-2024/appearances.csv'))
 
 
@@ -37,19 +37,19 @@ def get_players(location=''):
     return pd.read_csv(location + 'Assignment_Data_2023-2024/players.csv')
 
 
-def clean_appearance(appearance):
-    if appearance is not None:
-        appearance = appearance.drop(columns=['date', 'player_name', 'competition_id'])
-        appearance['appearance_id'] = appearance['appearance_id'].astype('string')
-        appearance['red_cards'] = (appearance['red_cards'].apply(lambda x: bool(x))).astype('bool')
+def clean_appearances(appearances):
+    if appearances is not None:
+        appearances = appearances.drop(columns=['date', 'player_name', 'competition_id'])
+        appearances['appearance_id'] = appearances['appearance_id'].astype('string')
+        appearances['red_cards'] = (appearances['red_cards'].apply(lambda x: bool(x))).astype('bool')
         players = get_players()
-        appearance_to_drop = appearance.query('player_id not in @players["player_id"]', engine="python")
-        appearance = appearance.drop(appearance_to_drop.index.tolist(), axis=0)
+        appearances_to_drop = appearances.query('player_id not in @players["player_id"]', engine="python")
+        appearances = appearances.drop(appearances_to_drop.index.tolist(), axis=0)
         players = None
-        appearance_to_drop = None
+        appearances_to_drop = None
     else:
-        print('Error occurred reading "appearance" dataset')
-    return appearance
+        print('Error occurred reading "appearances" dataset')
+    return appearances
 
 
 def clean_club_games(club_games):
@@ -136,7 +136,7 @@ def clean_competitions(competitions):
     return competitions
 
 
-def format_string(des_elem = ''):
+def format_string(des_elem=''):
     # pre: des_elem is not None
     if des_elem is not None and len(des_elem) > 0:
         for i in range(0, len(des_elem)-1):
@@ -171,6 +171,7 @@ def clean_game_events(game_events):
         target = game_events['description'].apply(lambda x: x if x is None else x[2:] if x[0] == ',' else x)
         target = target.apply(format_string)
         game_events['description'].update(target)
+        target = None
 
         # Formatting player_in_id
         game_events.fillna({'player_in_id': -1, 'player_assist_id': -1}, inplace=True)
