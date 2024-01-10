@@ -35,6 +35,8 @@ not.
    
 > ###### 3. Should we update the clubs or remove both the records from the two tables ?
 > ###### The wrong sized clubs COULD HAVE PROBABLY CEASED TO EXIST!
+## We could remove `foreigners_percentage` and calculate it at runtime via server route.
+
 ---
 
 # Club_games:
