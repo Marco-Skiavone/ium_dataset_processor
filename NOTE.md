@@ -112,8 +112,6 @@
     - ```position``` $\rightarrow$ it indicates the main position that the player plays in
     - ```image_url``` $\rightarrow$ it is a link to a picture of the player
     - ```foot``` $\rightarrow$ it indicates which foot the player tends to shoot with
-    - ```current_club_domestic_competition_id``` **(not sure to maintain)** $\rightarrow$ it indicates the competition
-      in which the player's team is participating
     - ```date_of_birth``` $\rightarrow$ it indicates when the player was born
     - ```city_of_birth``` $\rightarrow$ it indicates the city where the player was born
     - ```agent_name``` $\rightarrow$ it is the full name of the player's agent
@@ -123,6 +121,8 @@
     - ```firs_name``` and ```last_name``` $\rightarrow$ this information are preset in name
     - ```player_code``` $\rightarrow$ this information is unuseful, the set already has an identifier
     - ```current_club_name``` $\rightarrow$ this information is unuseful, its sufficient ```current_club_id```
+    - - ```current_club_domestic_competition_id``` $\rightarrow$ it indicates the competition
+         in which the player's team is participating
 
 ---
 

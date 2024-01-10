@@ -64,14 +64,17 @@ def clean_club_games(club_games):
         games = get_games()
         games_subset_1 = games[['game_id', 'home_club_id', 'home_club_formation']].copy()
         games_subset_2 = games[['game_id', 'away_club_id', 'away_club_formation']].copy()
-        games_subset_1 = games_subset_1.rename(columns={'home_club_id': 'club_id', 'home_club_formation': 'club_formation'})
-        games_subset_2 = games_subset_2.rename(columns={'away_club_id': 'club_id', 'away_club_formation': 'club_formation'})
+        games_subset_1 = games_subset_1.rename(columns={'home_club_id': 'club_id',
+                                                        'home_club_formation': 'club_formation'})
+        games_subset_2 = games_subset_2.rename(columns={'away_club_id': 'club_id',
+                                                        'away_club_formation': 'club_formation'})
         game_subset = pd.concat([games_subset_1, games_subset_2], axis=0)
         games_subset_1 = None
         games_subset_2 = None
         club_games = pd.merge(club_games, game_subset, on=['game_id', 'club_id'])
         games_subset = None
         games = None
+        club_games['club_formation'] = club_games['club_formation'].astype('string')
     else:
         print('Error occurred reading "club_games" dataset')
     return club_games
@@ -250,7 +253,8 @@ def clean_player_valuations(player_valuations):
 
 def clean_players(players):
     if players is not None:
-        players.drop(columns=['first_name', 'last_name', 'player_code', 'current_club_name'], inplace=True)
+        players.drop(columns=['first_name', 'last_name', 'player_code', 'current_club_name',
+                              'current_club_domestic_competition_id'], inplace=True)
         players.replace(float('NaN'), None, inplace=True)
         players['name'] = players['name'].astype('string')
         players['country_of_birth'] = players['country_of_birth'].astype('string')
@@ -271,12 +275,9 @@ def clean_players(players):
         players['agent_name'] = players['agent_name'].astype('string')
         players['image_url'] = players['image_url'].astype('string')
         players['url'] = players['url'].astype('string')
-        players['current_club_domestic_competition_id'] = (players['current_club_domestic_competition_id'].
-                                                           astype('string'))
         # Renaming columns
         players.rename(columns={'name': 'player_name', 'type': 'player_type', 'market_value_in_eur': 'value_eur',
-                                'highest_market_value_in_eur': 'top_value_eur', 'url': 'player_url',
-                                'current_club_domestic_competition_id': 'current_dom_competition_id'}, inplace=True)
+                                'highest_market_value_in_eur': 'top_value_eur', 'url': 'player_url'}, inplace=True)
     else:
         print('Error occurred reading "players" dataset')
     return players
