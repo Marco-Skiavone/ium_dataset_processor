@@ -4,6 +4,9 @@
 __pycache__/*
 __pycache__
 
+.vscode
+.vscode/*
+
 Assignment_Data_2023-2024
 Assignment_Data_2023-2024/*.csv
 
