@@ -248,10 +248,11 @@ def clean_player_valuations(player_valuations):
 
 def clean_players(players):
     if players is not None:
-        players.drop(columns=['first_name', 'last_name', 'player_code', 'current_club_name',
+        players.drop(columns=['first_name', 'player_code', 'current_club_name',
                               'current_club_domestic_competition_id', 'url'], inplace=True)
         players.replace(float('NaN'), None, inplace=True)
         players['name'] = players['name'].astype('string')
+        players['last_name'] = players['last_name'].astype('string')
         players['country_of_birth'] = players['country_of_birth'].astype('string')
         players['city_of_birth'] = players['city_of_birth'].astype('string')
         players['country_of_citizenship'] = players['country_of_citizenship'].astype('string')
