@@ -39,14 +39,17 @@ def get_players(location=''):
 
 def clean_appearances(appearances):
     if appearances is not None:
-        appearances = appearances.drop(columns=['date', 'player_name', 'competition_id'])
         appearances['appearance_id'] = appearances['appearance_id'].astype('string')
+        appearances['player_name'] = appearances['player_name'].astype('string')
+        appearances['competition_id'] = appearances['competition_id'].astype('string')
+        appearances['date'] = pd.to_datetime(appearances['date'].astype('string'))
         appearances['red_cards'] = (appearances['red_cards'].apply(lambda x: bool(x))).astype('bool')
         players = get_players()
         appearances_to_drop = appearances.query('player_id not in @players["player_id"]', engine="python")
         appearances = appearances.drop(appearances_to_drop.index.tolist(), axis=0)
         players = None
         appearances_to_drop = None
+        appearances.rename(columns={'date': 'game_date'}, inplace=True)
     else:
         print('Error occurred reading "appearances" dataset')
     return appearances
