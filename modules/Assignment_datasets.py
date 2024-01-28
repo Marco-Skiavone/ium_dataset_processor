@@ -279,3 +279,33 @@ def clean_players(players):
     else:
         print('Error occurred reading "players" dataset')
     return players
+
+
+def create_flags():
+    """
+    It creates a DataFrame with 3 fields: domestic_league_code, country_name and flag_url
+        :return: the DataFrame of flags with their codes and names
+    """
+    competitions = clean_competitions(get_competitions())
+    nations = (competitions[['domestic_league_code', 'country_name']].
+               drop_duplicates().query('not domestic_league_code.isnull()', engine='python')).reset_index(drop=True)
+    competitions = None
+    flag_series = pd.Series([
+        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/it.svg',
+        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/nl.svg',
+        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/gr.svg',
+        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/pt.svg',
+        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/ru.svg',
+        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/es.svg',
+        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/dk.svg',
+        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/fr.svg',
+        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/be.svg',
+        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/gb.svg',
+        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/ua.svg',
+        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/tr.svg',
+        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/de.svg',
+        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/gb-sct.svg',
+    ]).rename('flag_url', axis=0).astype('string')
+    nations = nations.join(flag_series, how='outer')
+    flag_series = None
+    return nations
