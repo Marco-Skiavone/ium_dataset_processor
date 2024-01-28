@@ -46,4 +46,9 @@ players = clean_players(get_players())
 players.to_json('Cleaned_Json/cleaned_players.json', orient='records', indent=2)
 players = None
 print('.', end='')
+
+flags = create_flags()
+flags.to_json('Cleaned_Json/cleaned_flags.json', orient='records', indent=2)
+flags = None
+print('.', end='')
 print('Done.')
