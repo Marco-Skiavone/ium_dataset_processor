@@ -3,7 +3,7 @@ from modules.module_for_imports import *
 # Processing the dataset
 
 app = clean_appearances(get_appearances())
-app.to_json('Cleaned_Json/cleaned_appearances.json', orient='records', indent=2)
+app.to_json('Cleaned_Json/cleaned_appearances.json', orient='records', indent=2, date_format='%d-%m-%Y')
 app = None
 print('.', end='')
 
@@ -33,17 +33,18 @@ game_lineups = None
 print('.', end='')
 
 games = clean_games(get_games())
-games.to_json('Cleaned_Json/cleaned_games.json', orient='records', indent=2)
+games.to_json('Cleaned_Json/cleaned_games.json', orient='records', indent=2, date_format='%d-%m-%Y')
 games = None
 print('.', end='')
 
 player_valuations = clean_player_valuations(get_player_valuations())
-player_valuations.to_json('Cleaned_Json/cleaned_player_valuations.json', orient='records', indent=2)
+player_valuations.to_json('Cleaned_Json/cleaned_player_valuations.json', orient='records', indent=2,
+                          date_format='%d-%m-%Y')
 player_valuations = None
 print('.', end='')
 
 players = clean_players(get_players())
-players.to_json('Cleaned_Json/cleaned_players.json', orient='records', indent=2)
+players.to_json('Cleaned_Json/cleaned_players.json', orient='records', indent=2, date_format='%d-%m-%Y')
 players = None
 print('.', end='')
 
