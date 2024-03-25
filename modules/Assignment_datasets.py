@@ -37,14 +37,14 @@ def get_players(location=''):
     return pd.read_csv(location + 'Assignment_Data_2023-2024/players.csv')
 
 
-def clean_appearances(appearances):
+def clean_appearances(appearances, location=''):
     if appearances is not None:
         appearances['appearance_id'] = appearances['appearance_id'].astype('string')
         appearances['player_name'] = appearances['player_name'].astype('string')
         appearances['competition_id'] = appearances['competition_id'].astype('string')
         appearances['date'] = pd.to_datetime(appearances['date'].astype('string'))
         appearances['red_cards'] = (appearances['red_cards'].apply(lambda x: bool(x))).astype('bool')
-        players = get_players()
+        players = get_players(location)
         appearances_to_drop = appearances.query('player_id not in @players["player_id"]', engine="python")
         appearances = appearances.drop(appearances_to_drop.index.tolist(), axis=0)
         players = None
@@ -55,7 +55,7 @@ def clean_appearances(appearances):
     return appearances
 
 
-def clean_club_games(club_games):
+def clean_club_games(club_games, location=''):
     if club_games is not None:
         club_games = club_games.drop(columns=['opponent_id', 'opponent_goals', 'opponent_position',
                                               'opponent_manager_name'])
@@ -64,7 +64,7 @@ def clean_club_games(club_games):
         club_games['own_manager_name'] = club_games['own_manager_name'].astype('string')
         club_games['hosting'] = (club_games['hosting'].apply(lambda x: bool(x.__str__() == 'Home'))).astype('bool')
         club_games['is_win'] = (club_games['is_win'].apply(lambda x: bool(x == 1))).astype('bool')
-        games = get_games()
+        games = get_games(location)
         games_subset_1 = games[['game_id', 'home_club_id', 'home_club_formation']].copy()
         games_subset_2 = games[['game_id', 'away_club_id', 'away_club_formation']].copy()
         games_subset_1 = games_subset_1.rename(columns={'home_club_id': 'club_id',
