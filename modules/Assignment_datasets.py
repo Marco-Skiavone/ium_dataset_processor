@@ -85,14 +85,14 @@ def clean_club_games(club_games, location=''):
 
 def clean_clubs(clubs):
     if clubs is not None:
-        clubs = clubs.drop(columns=['coach_name', 'total_market_value', 'club_code', 'url'])    # Both are null
+        clubs = clubs.drop(columns=['coach_name', 'total_market_value', 'club_code', 'url'])  # Both are null
         clubs['name'] = clubs['name'].astype('string')
         clubs['domestic_competition_id'] = clubs['domestic_competition_id'].astype('string')
         # If squad_size == 0 -> The club could not exist anymore. We have not touched these value.
         clubs.fillna({'foreigners_percentage': 0}, inplace=True)
         clubs['foreigners_percentage'] = clubs['foreigners_percentage'].astype('int')
         clubs['stadium_name'] = clubs['stadium_name'].astype('string')
-        clubs.at[409, 'stadium_seats'] = 4851       # correcting the only 0 value!
+        clubs.at[409, 'stadium_seats'] = 4851  # correcting the only 0 value!
         clubs['net_transfer_record'] = clubs['net_transfer_record'].astype('string')
         clubs['net_transfer_record'] = (clubs['net_transfer_record'].apply(clean_net_records)).astype('int')
         clubs.rename(columns={'name': 'club_name', 'domestic_competition_id': 'local_competition_code'}, inplace=True)
@@ -141,24 +141,24 @@ def clean_competitions(competitions):
 def format_string(des_elem=''):
     # pre: des_elem is not None
     if des_elem is not None and len(des_elem) > 0:
-        for i in range(0, len(des_elem)-1):
+        for i in range(0, len(des_elem) - 1):
             # print(f'i= {i}, len= {len(des_elem)}')
             if des_elem[i].isdigit():
-                if des_elem[i] == '1' and des_elem[i+1] == '.':
-                    des_elem = des_elem[:i+1] + 'st' + des_elem[i+2:]
-                    i = i+2
-                elif des_elem[i] == '2' and des_elem[i+1] == '.':
-                    des_elem = des_elem[:i+1] + 'nd' + des_elem[i+2:]
-                    i = i+2
-                elif des_elem[i] == '3' and des_elem[i+1] == '.':
-                    des_elem = des_elem[:i+1] + 'rd' + des_elem[i+2:]
-                    i = i+2
+                if des_elem[i] == '1' and des_elem[i + 1] == '.':
+                    des_elem = des_elem[:i + 1] + 'st' + des_elem[i + 2:]
+                    i = i + 2
+                elif des_elem[i] == '2' and des_elem[i + 1] == '.':
+                    des_elem = des_elem[:i + 1] + 'nd' + des_elem[i + 2:]
+                    i = i + 2
+                elif des_elem[i] == '3' and des_elem[i + 1] == '.':
+                    des_elem = des_elem[:i + 1] + 'rd' + des_elem[i + 2:]
+                    i = i + 2
                 else:
                     while i < len(des_elem) and des_elem[i].isdigit():
-                        i = i+1
+                        i = i + 1
                     if i < len(des_elem) and des_elem[i] == '.':
-                        des_elem = des_elem[:i] + 'th' + des_elem[i+1:]
-                        i = i+2
+                        des_elem = des_elem[:i] + 'th' + des_elem[i + 1:]
+                        i = i + 2
         return des_elem
     return des_elem
 
@@ -291,20 +291,21 @@ def create_flags():
                drop_duplicates().query('not domestic_league_code.isnull()', engine='python')).reset_index(drop=True)
     competitions = None
     flag_series = pd.Series([
-        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/it.svg',
-        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/nl.svg',
-        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/gr.svg',
-        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/pt.svg',
-        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/ru.svg',
-        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/es.svg',
-        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/dk.svg',
-        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/fr.svg',
-        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/be.svg',
-        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/gb.svg',
-        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/ua.svg',
-        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/tr.svg',
-        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/de.svg',
-        'https://github.com/lipis/flag-icons/blob/main/flags/4x3/gb-sct.svg',
+        'https://raw.githubusercontent.com/lipis/flag-icons/05059f9cde4a872f1692cb017abb1140e9aceae9/flags/4x3/it.svg',
+        'https://raw.githubusercontent.com/lipis/flag-icons/05059f9cde4a872f1692cb017abb1140e9aceae9/flags/4x3/nl.svg',
+        'https://raw.githubusercontent.com/lipis/flag-icons/05059f9cde4a872f1692cb017abb1140e9aceae9/flags/4x3/gr.svg',
+        'https://raw.githubusercontent.com/lipis/flag-icons/05059f9cde4a872f1692cb017abb1140e9aceae9/flags/4x3/pt.svg',
+        'https://raw.githubusercontent.com/lipis/flag-icons/05059f9cde4a872f1692cb017abb1140e9aceae9/flags/4x3/ru.svg',
+        'https://raw.githubusercontent.com/lipis/flag-icons/05059f9cde4a872f1692cb017abb1140e9aceae9/flags/4x3/es.svg',
+        'https://raw.githubusercontent.com/lipis/flag-icons/05059f9cde4a872f1692cb017abb1140e9aceae9/flags/4x3/dk.svg',
+        'https://raw.githubusercontent.com/lipis/flag-icons/05059f9cde4a872f1692cb017abb1140e9aceae9/flags/4x3/fr.svg',
+        'https://raw.githubusercontent.com/lipis/flag-icons/05059f9cde4a872f1692cb017abb1140e9aceae9/flags/4x3/be.svg',
+        'https://raw.githubusercontent.com/lipis/flag-icons/05059f9cde4a872f1692cb017abb1140e9aceae9/flags/4x3/gb.svg',
+        'https://raw.githubusercontent.com/lipis/flag-icons/05059f9cde4a872f1692cb017abb1140e9aceae9/flags/4x3/ua.svg',
+        'https://raw.githubusercontent.com/lipis/flag-icons/05059f9cde4a872f1692cb017abb1140e9aceae9/flags/4x3/tr.svg',
+        'https://raw.githubusercontent.com/lipis/flag-icons/05059f9cde4a872f1692cb017abb1140e9aceae9/flags/4x3/de.svg',
+        'https://raw.githubusercontent.com/lipis/flag-icons/05059f9cde4a872f1692cb017abb1140e9aceae9/flags/4x3/gb-sct'
+        '.svg',
     ]).rename('flag_url', axis=0).astype('string')
     nations = nations.join(flag_series, how='outer')
     flag_series = None
