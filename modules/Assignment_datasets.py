@@ -87,6 +87,8 @@ def clean_clubs(clubs):
     if clubs is not None:
         clubs = clubs.drop(columns=['coach_name', 'total_market_value', 'club_code', 'url'])  # Both are null
         clubs['name'] = clubs['name'].astype('string')
+        clubs['name'] = clubs['name'].str.replace('"', "'", regex=False)
+        clubs['name'] = clubs['name'].str.replace('Football Club', "FC", regex=False)
         clubs['domestic_competition_id'] = clubs['domestic_competition_id'].astype('string')
         # If squad_size == 0 -> The club could not exist anymore. We have not touched these value.
         clubs.fillna({'foreigners_percentage': 0}, inplace=True)
