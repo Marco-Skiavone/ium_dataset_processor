@@ -188,9 +188,7 @@ def clean_game_events(game_events):
         game_events['player_assist_id'] = game_events['player_assist_id'].astype('int')
 
         # Renaming columns
-        game_events.rename(columns={'type': 'event_type',
-                                    'description': 'event_description'},
-                           inplace=True)
+        game_events.rename(columns={'type': 'event_type', 'description': 'event_description'}, inplace=True)
     else:
         print('Error occurred reading "game_events" dataset')
     return game_events
