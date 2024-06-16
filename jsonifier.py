@@ -10,6 +10,16 @@ def json_wrapper(loc=''):
     dfs[1].to_json('Cleaned_Json/cleaned_games.json', orient='records', indent=2)
     print('.', end='')
 
+    app = clean_appearances(get_appearances(), dfs[1], loc)
+    app.to_json('Cleaned_Json/cleaned_appearances.json', orient='records', indent=2, date_format='%d-%m-%Y')
+    app = None
+    print('.', end='')
+
+    game_lineups = clean_game_lineups(get_game_lineups(), dfs[1])
+    game_lineups.to_json('Cleaned_Json/cleaned_game_lineups.json', orient='records', indent=2)
+    game_lineups = None
+    print('.', end='')
+
     game_events = clean_game_events(get_game_events(loc), dfs[1], loc)
     dfs[1] = None
     dfs = None
@@ -22,11 +32,6 @@ def json_wrapper(loc=''):
 # Processing the dataset
 print('Starting: [', end='')
 
-app = clean_appearances(get_appearances())
-app.to_json('Cleaned_Json/cleaned_appearances.json', orient='records', indent=2, date_format='%d-%m-%Y')
-app = None
-print('.', end='')
-
 clubs = clean_clubs(get_clubs())
 clubs.to_json('Cleaned_Json/cleaned_clubs.json', orient='records', indent=2)
 clubs = None
@@ -37,11 +42,6 @@ json_wrapper()
 competitions = clean_competitions(get_competitions())
 competitions.to_json('Cleaned_Json/cleaned_competitions.json', orient='records', indent=2)
 competitions = None
-print('.', end='')
-
-game_lineups = clean_game_lineups(get_game_lineups())
-game_lineups.to_json('Cleaned_Json/cleaned_game_lineups.json', orient='records', indent=2)
-game_lineups = None
 print('.', end='')
 
 player_valuations = clean_player_valuations(get_player_valuations())

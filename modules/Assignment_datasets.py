@@ -37,8 +37,8 @@ def get_players(location=''):
     return pd.read_csv(location + 'Assignment_Data_2023-2024/players.csv')
 
 
-def clean_appearances(appearances, location=''):
-    if appearances is not None:
+def clean_appearances(appearances, games, location=''):
+    if appearances is not None and games is not None:
         appearances['appearance_id'] = appearances['appearance_id'].astype('string')
         appearances['player_name'] = appearances['player_name'].astype('string')
         appearances['competition_id'] = appearances['competition_id'].astype('string')
@@ -49,6 +49,8 @@ def clean_appearances(appearances, location=''):
         appearances = appearances.drop(appearances_to_drop.index.tolist(), axis=0)
         players = None
         appearances_to_drop = None
+        # Removing games with no match
+        appearances = appearances[appearances['game_id'].isin(games['game_id'])]
         appearances.rename(columns={'date': 'game_date'}, inplace=True)
     else:
         print('Error occurred reading "appearances" dataset')
@@ -138,6 +140,8 @@ def clean_net_records(x):
 def clean_competitions(competitions):
     if competitions is not None:
         competitions = competitions.drop(columns=['competition_code', 'country_id', 'confederation', 'url'])
+        # the following competition has no game in dataset
+        competitions = competitions[competitions['competition_id'] != "KLUB"]
         # Casting types
         competitions['competition_id'] = competitions['competition_id'].astype('string')
         competitions['name'] = competitions['name'].astype('string')
@@ -210,8 +214,8 @@ def clean_game_events(game_events, games, location=''):
     return game_events
 
 
-def clean_game_lineups(game_lineups):
-    if game_lineups is not None:
+def clean_game_lineups(game_lineups, games):
+    if game_lineups is not None and games is not None:
         game_lineups['game_lineups_id'] = game_lineups['game_lineups_id'].astype('string')
         game_lineups['type'] = game_lineups['type'].astype('string')
         game_lineups['number'].replace('-', -1, inplace=True)
@@ -221,6 +225,8 @@ def clean_game_lineups(game_lineups):
         game_lineups['team_captain'] = game_lineups['team_captain'].astype('bool')
         game_lineups['position'] = game_lineups['position'].astype('string')
         game_lineups['position'].replace('midfield', 'Midfield', inplace=True)
+        # Removing games with no match
+        game_lineups = game_lineups[game_lineups['game_id'].isin(games['game_id'])]
     else:
         print('Error occurred reading "game_lineups" dataset')
     return game_lineups
