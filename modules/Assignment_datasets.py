@@ -56,6 +56,7 @@ def clean_appearances(appearances, location=''):
 
 
 def clean_club_games(club_games, location=''):
+    cleaned_games = None
     if club_games is not None:
         club_games = club_games.drop(columns=['opponent_id', 'opponent_goals', 'opponent_position',
                                               'opponent_manager_name'])
@@ -75,12 +76,23 @@ def clean_club_games(club_games, location=''):
         games_subset_1 = None
         games_subset_2 = None
         club_games = pd.merge(club_games, game_subset, on=['game_id', 'club_id'])
-        games_subset = None
-        games = None
         club_games['club_formation'] = club_games['club_formation'].astype('string')
+        games_subset = None
+
+        # finding inconsistent tuples in club_games
+        missing_club_cg = club_games[~club_games['club_id'].isin(clean_clubs(get_clubs(location))['club_id'])]
+
+        # saving game_id's to drop
+        cg_ids_to_drop = club_games.query('game_id.isin(@missing_club_cg["game_id"])', engine='python')['game_id']
+        missing_club_cg = None
+        club_games = club_games[~club_games['game_id'].isin(cg_ids_to_drop)]
+        cg_to_drop = None
+        cleaned_games = clean_games(games)
+        cleaned_games = cleaned_games[cleaned_games['game_id'].isin(club_games['game_id'])]
+        games = None
     else:
         print('Error occurred reading "club_games" dataset')
-    return club_games
+    return [club_games, cleaned_games]
 
 
 def clean_clubs(clubs):
@@ -165,8 +177,8 @@ def format_string(des_elem=''):
     return des_elem
 
 
-def clean_game_events(game_events):
-    if game_events is not None:
+def clean_game_events(game_events, games, location=''):
+    if game_events is not None or games is not None:
         # Removing unnecessary columns and values
         game_events = game_events.drop(columns=['date'])
 
@@ -186,6 +198,10 @@ def clean_game_events(game_events):
         game_events['description'] = game_events['description'].astype('string')
         game_events['player_in_id'] = game_events['player_in_id'].astype('int')
         game_events['player_assist_id'] = game_events['player_assist_id'].astype('int')
+
+        # Checking foreign keys, removing game and player ids with no match
+        game_events = game_events[game_events['game_id'].isin(games['game_id'])]
+        game_events = game_events[game_events['player_id'].isin(clean_players(get_players(location))['player_id'])]
 
         # Renaming columns
         game_events.rename(columns={'type': 'event_type', 'description': 'event_description'}, inplace=True)
