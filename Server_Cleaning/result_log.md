@@ -159,4 +159,4 @@ occurred event
    2`player_club_domestic_competition_id` into `current_dom_competition_code`
    3`market_value_in_eur` into `market_value_eur`
     
-> > ### End of analysis 
+> ### End of analysis 
