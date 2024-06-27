@@ -45,10 +45,9 @@ def clean_appearances(appearances, games, location=''):
         appearances['date'] = pd.to_datetime(appearances['date'].astype('string'))
         appearances['red_cards'] = (appearances['red_cards'].apply(lambda x: bool(x))).astype('bool')
         players = get_players(location)
-        appearances_to_drop = appearances.query('player_id not in @players["player_id"]', engine="python")
-        appearances = appearances.drop(appearances_to_drop.index.tolist(), axis=0)
+        # Removing players with no match
+        appearances = appearances[appearances['player_id'].isin(players['player_id'])]
         players = None
-        appearances_to_drop = None
         # Removing games with no match
         appearances = appearances[appearances['game_id'].isin(games['game_id'])]
         appearances.rename(columns={'date': 'game_date'}, inplace=True)

@@ -19,6 +19,15 @@ not.
 6. There are **356** players_id rows (with duplicates) in appearance that are not in players csv
 7. There are **42** `players_id` that are not in `players.csv`!
 
+## Jsonifier
+- `apprearance_id` is a String
+- `player_name` is a String
+- `competition_id` is a String
+- `date` is a String
+- `red_cards` is a Boolean
+- dropped appearances with `player_id` not found in players dataset
+
+
 ---
 
 # Clubs:
