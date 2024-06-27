@@ -10,6 +10,7 @@ __pycache__
 Assignment_Data_2023-2024
 Assignment_Data_2023-2024/*.csv
 
+Server_Cleaning/Cleaned_Json
 Server_Cleaning/Cleaned_Json/*.json
 
 temp_file_for_testing.ipynb
