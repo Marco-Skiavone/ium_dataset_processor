@@ -39,7 +39,7 @@ clubs.to_json('Cleaned_Json/cleaned_clubs.json', orient='records', indent=2)
 clubs = None
 print('.', end='')
 
-json_wrapper()
+json_wrapper(location)
 
 competitions = clean_competitions(get_competitions(location))
 competitions.to_json('Cleaned_Json/cleaned_competitions.json', orient='records', indent=2)

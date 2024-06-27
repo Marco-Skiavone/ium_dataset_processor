@@ -303,12 +303,12 @@ def clean_players(players):
     return players
 
 
-def create_flags():
+def create_flags(loc=''):
     """
     It creates a DataFrame with 3 fields: domestic_league_code, country_name and flag_url
         :return: the DataFrame of flags with their codes and names
     """
-    competitions = clean_competitions(get_competitions())
+    competitions = clean_competitions(get_competitions(loc))
     nations = (competitions[['domestic_league_code', 'country_name']].
                drop_duplicates().query('not domestic_league_code.isnull()', engine='python')).reset_index(drop=True)
     competitions = None
