@@ -1,4 +1,4 @@
-import pandas as pd
+from Server_Cleaning.modules.module_for_imports import *
 
 
 def get_appearances(location='', apply_func=lambda x: x):
