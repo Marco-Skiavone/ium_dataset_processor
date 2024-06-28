@@ -1,3 +1,21 @@
+# Chart types 
+We can make an **intro** with a **correlation matrix** to see if we can find other correlations to inspect.
+- bar ch.
+- scatter plot (multicolor) (matrix ?)
+- combination
+- stacked bar ch.
+- cohort
+- distplot
+- chart with nations (geopandas)
+
+> **Optionals:**
+> - line ch. (?)
+> - heat and treemap (?)
+> - violin plot (?)
+> - joint histogram (?)
+
+---
+
 ## Line Chart
 - Acquisti-vendite (spostamenti di giocatori) nei diversi anni 
 - distribuzione dei giocatori per età (y= quantità di giocatori, x= età \[prevediamo una gaussiana])
