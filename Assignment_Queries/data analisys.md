@@ -5,7 +5,7 @@ We can make an **intro** with a **correlation matrix** to see if we can find oth
 - combination
 - stacked bar ch.
 - cohort
-- distplot
+- dist-plot
 - chart with nations (geopandas)
 
 > **Optionals:**
@@ -36,9 +36,9 @@ We can make an **intro** with a **correlation matrix** to see if we can find oth
 
 ### Stacked bar
 - y=valore club stackati, x= nazione
-	valore delle squadre per club (per ogni nazione) 
+	valore delle squadre per club (per ogni nazione)
 
-
+---
 
 # Storytelling
 - **mobilità** dei giocatori (non per forza incentrata sui giocatori)
@@ -49,5 +49,4 @@ We can make an **intro** with a **correlation matrix** to see if we can find oth
 # ?
 - età media del massimo valore di mercato (y= quantità di giocatori, x= età dei giocatori nel loro picco massimo vi valore, z= densità dei giocatori per età dell'ultima valutazione)
 - mobilità dei giocatori per nazione
-- 
 - ==cartellini per origine dei player==
