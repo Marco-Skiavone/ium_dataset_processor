@@ -159,7 +159,6 @@ def format_string(des_elem=''):
     # pre: des_elem is not None
     if des_elem is not None and len(des_elem) > 0:
         for i in range(0, len(des_elem) - 1):
-            # print(f'i= {i}, len= {len(des_elem)}')
             if des_elem[i].isdigit():
                 if des_elem[i] == '1' and des_elem[i + 1] == '.':
                     des_elem = des_elem[:i + 1] + 'st' + des_elem[i + 2:]
