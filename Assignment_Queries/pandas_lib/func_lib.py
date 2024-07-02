@@ -51,7 +51,7 @@ def clear_games(ga):
         print('Error in clear_games()')
     else:
         ga = ga.drop(columns=['home_club_manager_name', 'away_club_manager_name', 'round', 'stadium',
-                                    'referee', 'home_club_name', 'away_club_name', 'competition_type', 'url'])
+                              'referee', 'home_club_name', 'away_club_name', 'competition_type', 'url'])
         ga = ga.replace(float('NaN'), None)
         ga['competition_id'] = ga['competition_id'].astype('string')
         ga['date'] = pd.to_datetime(ga['date'].astype('string'))
@@ -80,3 +80,12 @@ def clear_game_events(g_ev):
         g_ev['description'] = g_ev['description'].astype('string')
     return g_ev
 
+
+def check_home_win(x):
+    """ Used in apply to return a column with string values passing 'aggregate' format to it
+        :param x: A value of 'aggregate' column in the 'x:y' format where x, y are numbers
+    """
+    i = x.find(':')
+    first = int(x[:i])
+    second = int(x[i + 1:])
+    return 'win' if first > second else 'loss' if second > first else 'draw'
