@@ -254,7 +254,6 @@ def clean_games(games):
 def clean_player_valuations(player_valuations):
     if player_valuations is not None:
         player_valuations.drop(columns=['datetime', 'n'], inplace=True)
-        # Todo complete this function
         player_valuations['last_season'] = player_valuations['last_season'].astype('int')
         player_valuations['date'] = pd.to_datetime(player_valuations['date'].astype('string'))
         player_valuations['dateweek'] = pd.to_datetime(player_valuations['dateweek'].astype('string'))

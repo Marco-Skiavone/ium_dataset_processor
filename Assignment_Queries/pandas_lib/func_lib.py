@@ -23,26 +23,10 @@ def clear_club_games(cg):
         print('Error in clear_club_games()')
     else:
         cg = cg.drop(columns=['opponent_manager_name', 'own_manager_name'])
-        # Data cleaning for this task: Still WIP!
-        # cg.loc[cg['own_position'].isnull(), 'own_position'] = -1
-        # cg.loc[cg['opponent_position'].isnull(), 'opponent_position'] = -1
         cg['own_position'] = cg['own_position'].astype('float')
         cg['opponent_position'] = cg['opponent_position'].astype('float')
         cg['hosting'] = (cg['hosting'].apply(lambda x: bool(x.__str__() == 'Home'))).astype('bool')
         cg['is_win'] = (cg['is_win'].apply(lambda x: bool(x == 1))).astype('bool')
-        # setting 2 lines from 1:
-        # games_subset_1 = games[['game_id', 'home_club_id', 'home_club_formation']].copy()
-        # games_subset_2 = games[['game_id', 'away_club_id', 'away_club_formation']].copy()
-        # games_subset_1 = games_subset_1.rename(columns={'home_club_id': 'club_id',
-        #                                                 'home_club_formation': 'club_formation'})
-        # games_subset_2 = games_subset_2.rename(columns={'away_club_id': 'club_id',
-        #                                                 'away_club_formation': 'club_formation'})
-        # game_subset = pd.concat([games_subset_1, games_subset_2], axis=0)
-        # games_subset_1 = None
-        # games_subset_2 = None
-        # cg = pd.merge(cg, game_subset, on=['game_id', 'club_id'])
-        # cg['club_formation'] = cg['club_formation'].astype('string')
-        # games_subset = None
     return cg
 
 
@@ -89,3 +73,4 @@ def check_home_win(x):
     first = int(x[:i])
     second = int(x[i + 1:])
     return 'win' if first > second else 'loss' if second > first else 'draw'
+
