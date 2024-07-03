@@ -81,12 +81,12 @@ def clear_player_valuations(pl_val, comps):
         pl_val['local_competition_code'] = (
             pl_val['local_competition_code'].astype('string'))
         pl_val = pl_val.drop_duplicates('player_id')
-        pl_val = pl_val[['market_value_eur', 'local_competition_code']]
+        pl_val = pl_val[['player_id', 'market_value_eur', 'local_competition_code']]
         # Setting the code to the corresponding country
         comps = comps[
             ['country_name', 'domestic_league_code']].dropna().drop_duplicates().reset_index()
         comps = comps.rename(columns={'domestic_league_code': 'local_competition_code'})
-        pl_val = pl_val.merge(comps, on='local_competition_code', how='inner')[['country_name', 'market_value_eur']]
+        pl_val = pl_val.merge(comps, on='local_competition_code', how='inner')[['player_id', 'country_name', 'market_value_eur']]
     return pl_val
 
 
