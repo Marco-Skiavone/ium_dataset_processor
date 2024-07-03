@@ -65,6 +65,31 @@ def clear_game_events(g_ev):
     return g_ev
 
 
+def clear_player_valuations(pl_val, comps):
+    if pl_val is None:
+        print('Error in clear_player_valuations()')
+    else:
+        # Renaming columns
+        pl_val = pl_val.rename(columns={'player_club_domestic_competition_id': 'local_competition_code',
+                                        'market_value_in_eur': 'market_value_eur'})
+        pl_val = pl_val.drop(columns=['dateweek', 'datetime', 'n'])
+        # Type parsing
+        pl_val['last_season'] = pl_val['last_season'].astype('int')
+        pl_val = pl_val[pl_val['last_season'] > 2021]
+        pl_val['date'] = pd.to_datetime(pl_val['date'].astype('string'))
+        pl_val = pl_val.sort_values(by='date', ignore_index=True, ascending=False)
+        pl_val['local_competition_code'] = (
+            pl_val['local_competition_code'].astype('string'))
+        pl_val = pl_val.drop_duplicates('player_id')
+        pl_val = pl_val[['market_value_eur', 'local_competition_code']]
+        # Setting the code to the corresponding country
+        comps = comps[
+            ['country_name', 'domestic_league_code']].dropna().drop_duplicates().reset_index()
+        comps = comps.rename(columns={'domestic_league_code': 'local_competition_code'})
+        pl_val = pl_val.merge(comps, on='local_competition_code', how='inner')[['country_name', 'market_value_eur']]
+    return pl_val
+
+
 def check_home_win(x):
     """ Used in apply to return a column with string values passing 'aggregate' format to it
         :param x: A value of 'aggregate' column in the 'x:y' format where x, y are numbers
