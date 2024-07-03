@@ -159,7 +159,6 @@ def format_string(des_elem=''):
     # pre: des_elem is not None
     if des_elem is not None and len(des_elem) > 0:
         for i in range(0, len(des_elem) - 1):
-            # print(f'i= {i}, len= {len(des_elem)}')
             if des_elem[i].isdigit():
                 if des_elem[i] == '1' and des_elem[i + 1] == '.':
                     des_elem = des_elem[:i + 1] + 'st' + des_elem[i + 2:]
@@ -255,7 +254,6 @@ def clean_games(games):
 def clean_player_valuations(player_valuations):
     if player_valuations is not None:
         player_valuations.drop(columns=['datetime', 'n'], inplace=True)
-        # Todo complete this function
         player_valuations['last_season'] = player_valuations['last_season'].astype('int')
         player_valuations['date'] = pd.to_datetime(player_valuations['date'].astype('string'))
         player_valuations['dateweek'] = pd.to_datetime(player_valuations['dateweek'].astype('string'))
