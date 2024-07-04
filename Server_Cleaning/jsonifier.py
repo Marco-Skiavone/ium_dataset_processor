@@ -1,4 +1,5 @@
 from Server_Cleaning.modules.Assignment_datasets import *
+import os
 
 
 def json_wrapper(loc=''):
@@ -31,6 +32,9 @@ def json_wrapper(loc=''):
 
 # Processing the dataset
 print('Starting: [', end='')
+
+if not os.path.exists('Server_Cleaning/Cleaned_Json/'):
+    os.makedirs('Server_Cleaning/Cleaned_Json/')
 
 location = ''
 
