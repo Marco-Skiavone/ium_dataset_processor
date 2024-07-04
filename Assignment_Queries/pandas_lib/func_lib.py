@@ -99,3 +99,30 @@ def check_home_win(x):
     second = int(x[i + 1:])
     return 'win' if first > second else 'loss' if second > first else 'draw'
 
+
+def card_converter(x):
+    """
+    Used in apply to modify the card column to cleaning the text inside
+    """
+    if 'red' in x or 'Red' in x:
+        return 'red'
+    elif 'yellow' in x or 'Yellow' in x:
+        return 'yellow'
+    else :
+        return 'goal'
+
+
+def fill_age(x):
+    """
+    Used in apply to modify a partial game event column to substituting the date_of_birth of a player with his age
+    """
+    date0 = x['date']
+    if '-' in date0:
+        year0 = int(date0[:date0.find('-')])
+
+        date1 = x['date_of_birth']
+        if '-' in date1:
+            year1 = (int(date1[:date1.find('-')]))
+            x['date_of_birth'] = year0 - year1
+
+    return x
