@@ -1,4 +1,4 @@
-# Chart types 
+## Chart types 
 We can make an **intro** with a **correlation matrix** to see if we can find other correlations to inspect.
 - bar ch.
 - scatter plot (multicolor) (matrix ?)
@@ -16,12 +16,12 @@ We can make an **intro** with a **correlation matrix** to see if we can find oth
 
 ---
 
-## Line Chart
+### Line Chart
 - Acquisti-vendite (spostamenti di giocatori) nei diversi anni 
 - distribuzione dei giocatori per età (y= quantità di giocatori, x= età \[prevediamo una gaussiana])
 - 
 
-## Bar Chart
+### Bar Chart
 - x= numero partite (vittorie/sconfitte), y=anni, di una nazione (valutare se usare i club al posto delle nazioni/anni)
 - x= numero partite (vittorie/sconfitte), y=nazioni, di un intervallo di tempo (valutare se usare i club al posto delle nazioni/anni)
 
@@ -38,6 +38,17 @@ We can make an **intro** with a **correlation matrix** to see if we can find oth
 - y=valore club stackati, x= nazione
 	valore delle squadre per club (per ogni nazione)
 
+### Violin
+- on a defined and omogeneous set of players y= players ages, sx= card events distribution, dx= goal events distributions
+
+### pairPlot
+``` meh
+cartellini
+goal
+seasons
+
+markers(<by_age>)
+```
 ---
 
 # Storytelling
