@@ -10,6 +10,9 @@ __pycache__
 Assignment_Data_2023-2024
 Assignment_Data_2023-2024/*.csv
 
+country_topography
+country_topography/*.topojson
+
 Server_Cleaning/Cleaned_Json
 Server_Cleaning/Cleaned_Json/*.json
 
