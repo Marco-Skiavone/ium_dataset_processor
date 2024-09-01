@@ -86,7 +86,8 @@ def clear_player_valuations(pl_val, comps):
         comps = comps[
             ['country_name', 'domestic_league_code']].dropna().drop_duplicates().reset_index()
         comps = comps.rename(columns={'domestic_league_code': 'local_competition_code'})
-        pl_val = pl_val.merge(comps, on='local_competition_code', how='inner')[['player_id', 'country_name', 'market_value_eur']]
+        pl_val = pl_val.merge(comps, on='local_competition_code', how='inner')[
+            ['player_id', 'country_name', 'market_value_eur']]
     return pl_val
 
 
@@ -108,7 +109,7 @@ def card_converter(x):
         return 'red'
     elif 'yellow' in x or 'Yellow' in x:
         return 'yellow'
-    else :
+    else:
         return 'goal'
 
 
@@ -126,3 +127,39 @@ def fill_age(x):
             x['date_of_birth'] = year0 - year1
 
     return x
+
+
+def clear_players(pl, flags):
+    if (pl is not None and isinstance(pl, pd.DataFrame) and
+            flags is not None and isinstance(flags, pd.DataFrame)):
+        print('yo')
+        # Handling na
+        pl.replace(float('NaN'), None, inplace=True)
+        pl[['height_in_cm', 'market_value_in_eur', 'highest_market_value_in_eur']] = (
+            pl[['height_in_cm', 'market_value_in_eur', 'highest_market_value_in_eur']].fillna(-1))
+        # Drop and type changing
+        pl.drop(columns=['image_url', 'url', 'player_code', 'first_name', 'last_name'], inplace=True)
+        pl['foot'] = pl['foot'].astype('string')
+        pl['name'] = pl['name'].astype('string')
+        pl['city_of_birth'] = pl['city_of_birth'].astype('string')
+        pl['country_of_birth'] = pl['country_of_birth'].astype('string')
+        pl['country_of_citizenship'] = pl['country_of_citizenship'].astype('string')
+        pl['date_of_birth'] = pd.to_datetime(pl['date_of_birth'].astype('string'))
+        pl['position'] = pl['position'].astype('category')
+        pl['sub_position'] = pl['sub_position'].astype('category')
+        pl['contract_expiration_date'] = pd.to_datetime(pl['contract_expiration_date'].astype('string'))
+        pl['agent_name'] = pl['agent_name'].astype('string')
+        pl['current_club_domestic_competition_id'] = pl['current_club_domestic_competition_id'].astype('string')
+        pl['current_club_name'] = pl['current_club_name'].astype('string')
+        pl['market_value_in_eur'] = pl['market_value_in_eur'].astype('int')
+        pl['highest_market_value_in_eur'] = pl['highest_market_value_in_eur'].astype('int')
+        pl['height_in_cm'] = pl['height_in_cm'].astype('int')
+        # Renaming columns
+        pl.rename(columns={'current_club_domestic_competition_id':'domestic_league_code',
+                           'market_value_in_eur': 'value_eur', 'highest_market_value_in_eur': 'top_value_eur'},
+                  inplace=True)
+        pl = pl.merge(flags[['domestic_league_code', 'country_name']], on='domestic_league_code')
+        pl.loc[pl.country_name == 'Scotland' or pl.country_name == 'England', 'country_name'] = 'United Kingdom'
+
+        pl.loc[pl['height_in_cm'] == 18, 'height_in_cm'] = 180
+    return pl
