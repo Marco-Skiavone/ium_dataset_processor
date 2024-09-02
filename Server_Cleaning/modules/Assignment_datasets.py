@@ -242,7 +242,7 @@ def clean_games(games):
         games['round'] = (games['round'].apply(format_string)).astype('string')
         games['date'] = pd.to_datetime(games['date'].astype('string'))
         games['stadium'] = games['stadium'].astype('string')
-        games['attendance'].fillna(-1, inplace=True)
+        games.fillna({'attendance': -1}, inplace=True)
         games['attendance'] = games['attendance'].astype('int')
         games['referee'] = games['referee'].astype('string')
         games.rename({'date': 'game_date'}, inplace=True)
