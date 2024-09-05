@@ -131,7 +131,7 @@ def fill_age(x):
 
 def generate_top_payed_players(path) :
     """
-        used to retrieve the correct dataset for player_analysis.ipynb
+        used to retrieve the correct dataset for dropdown heatmaps in player_analysis.ipynb
     """
     game_events_csv = get_game_events(path)
     player_val_clean = clean_player_valuations(get_player_valuations(path))
@@ -194,3 +194,43 @@ def event_description_modifier(x):
         return 'Substitution'
 
 
+def top_payed_players_goals(path) :
+
+    """
+        used to retrieve the correct dataset for dropdown histograms in player_analysis.ipynb
+    """
+
+    game_events_csv = get_game_events(path)
+    player_val_clean = clean_player_valuations(get_player_valuations(path))
+    players_clean = clean_players(get_players(path))
+
+    # skimming useless columns and old data
+    players_names = players_clean.drop(columns=['last_name', 'last_season',
+                                                'current_club_id', 'country_of_birth', 'city_of_birth',
+                                                'country_of_citizenship', 'date_of_birth', 'sub_position', 'position',
+                                                'foot', 'height_in_cm', 'value_eur', 'top_value_eur',
+                                                'contract_expiration_date', 'agent_name', 'image_url'])
+
+    player_val_2022 = player_val_clean.drop(columns=['date', 'date_week',
+                                                     'current_club_id', 'current_dom_competition_code'])[
+        player_val_clean['last_season'] > 2021]
+    player_val_2022 = player_val_2022.loc[player_val_2022['player_id'].isin(players_names['player_id'])]
+    top_payed_players = player_val_2022.drop_duplicates('player_id', keep='last').sort_values(by='market_value_eur',
+                                                                                              ascending=False).head(100)
+
+    top_payed_game_events = game_events_csv[game_events_csv['player_id'].isin(top_payed_players['player_id'])]
+
+    restricted_top_payed_game_events = top_payed_game_events[["player_id", "minute"]].copy()
+    restricted_top_payed_game_events = \
+        pd.merge(restricted_top_payed_game_events, players_clean[["player_id", 'player_name']], on='player_id')[
+            ['player_name', 'minute']]
+
+    # creating minute range!!!
+    bins = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90]  # 90 is for the goals occurred after the 90th minute
+    restricted_top_payed_game_events.loc[:, 'minute_range'] = pd.cut(restricted_top_payed_game_events['minute'],
+                                                                     bins=bins)
+
+    restricted_top_payed_game_events = restricted_top_payed_game_events.drop(columns=['minute']).set_index(
+        'player_name')
+
+    return restricted_top_payed_game_events
