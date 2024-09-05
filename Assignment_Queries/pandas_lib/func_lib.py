@@ -129,37 +129,68 @@ def fill_age(x):
     return x
 
 
-def clear_players(pl, flags):
-    if (pl is not None and isinstance(pl, pd.DataFrame) and
-            flags is not None and isinstance(flags, pd.DataFrame)):
-        print('yo')
-        # Handling na
-        pl.replace(float('NaN'), None, inplace=True)
-        pl[['height_in_cm', 'market_value_in_eur', 'highest_market_value_in_eur']] = (
-            pl[['height_in_cm', 'market_value_in_eur', 'highest_market_value_in_eur']].fillna(-1))
-        # Drop and type changing
-        pl.drop(columns=['image_url', 'url', 'player_code', 'first_name', 'last_name'], inplace=True)
-        pl['foot'] = pl['foot'].astype('string')
-        pl['name'] = pl['name'].astype('string')
-        pl['city_of_birth'] = pl['city_of_birth'].astype('string')
-        pl['country_of_birth'] = pl['country_of_birth'].astype('string')
-        pl['country_of_citizenship'] = pl['country_of_citizenship'].astype('string')
-        pl['date_of_birth'] = pd.to_datetime(pl['date_of_birth'].astype('string'))
-        pl['position'] = pl['position'].astype('category')
-        pl['sub_position'] = pl['sub_position'].astype('category')
-        pl['contract_expiration_date'] = pd.to_datetime(pl['contract_expiration_date'].astype('string'))
-        pl['agent_name'] = pl['agent_name'].astype('string')
-        pl['current_club_domestic_competition_id'] = pl['current_club_domestic_competition_id'].astype('string')
-        pl['current_club_name'] = pl['current_club_name'].astype('string')
-        pl['market_value_in_eur'] = pl['market_value_in_eur'].astype('int')
-        pl['highest_market_value_in_eur'] = pl['highest_market_value_in_eur'].astype('int')
-        pl['height_in_cm'] = pl['height_in_cm'].astype('int')
-        # Renaming columns
-        pl.rename(columns={'current_club_domestic_competition_id':'domestic_league_code',
-                           'market_value_in_eur': 'value_eur', 'highest_market_value_in_eur': 'top_value_eur'},
-                  inplace=True)
-        pl = pl.merge(flags[['domestic_league_code', 'country_name']], on='domestic_league_code')
-        pl.loc[pl.country_name == 'Scotland' or pl.country_name == 'England', 'country_name'] = 'United Kingdom'
+def generate_top_payed_players(path) :
+    """
+        used to retrieve the correct dataset for player_analysis.ipynb
+    """
+    game_events_csv = get_game_events(path)
+    player_val_clean = clean_player_valuations(get_player_valuations(path))
+    players_clean = clean_players(get_players(path))
 
-        pl.loc[pl['height_in_cm'] == 18, 'height_in_cm'] = 180
-    return pl
+    # skimming useless columns and old data
+    players_names = players_clean.drop(columns=['last_name', 'last_season',
+                                                'current_club_id', 'country_of_birth', 'city_of_birth',
+                                                'country_of_citizenship', 'date_of_birth', 'sub_position', 'position',
+                                                'foot', 'height_in_cm', 'value_eur', 'top_value_eur',
+                                                'contract_expiration_date', 'agent_name', 'image_url'])
+
+    player_val_2022 = player_val_clean.drop(columns=['date', 'date_week',
+                                                     'current_club_id', 'current_dom_competition_code'])[
+        player_val_clean['last_season'] > 2021]
+    player_val_2022 = player_val_2022.loc[player_val_2022['player_id'].isin(players_names['player_id'])]
+    top_payed_players = player_val_2022.drop_duplicates('player_id', keep='last').sort_values(by='market_value_eur',
+                                                                                              ascending=False).head(100)
+
+    # filtering consistent players
+    top_payed_players_names = players_names.query('player_id.isin(@top_payed_players.player_id)', engine='python')
+
+    # cleaning game events, keeping top valued players
+    game_events = game_events_csv[game_events_csv['type'] != "Shootout"].copy()
+    game_events['date'] = game_events['date'].astype('datetime64[ns]')
+    game_events = game_events[game_events['date'] > pd.to_datetime("2021-12-31")]
+    top_payed_game_events = game_events[game_events['player_id'].isin(top_payed_players_names['player_id'])].drop(
+        columns=['game_id', 'game_event_id', 'date', 'type', 'club_id', 'player_in_id', 'player_assist_id']).dropna()
+
+    # replacing player id with actual players names
+    top_payed_game_events = pd.merge(top_payed_game_events, players_names, on='player_id', how='left').drop(
+        columns=['player_id'])
+
+    # creating minute range!!!
+    bins = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90,
+            120]  # 90 is for the goals occurred after the 90th minute
+    bins_by_ten = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 120]
+    top_payed_game_events.loc[:, 'minute_range'] = pd.cut(top_payed_game_events['minute'], bins=bins_by_ten)
+    top_payed_game_events = top_payed_game_events.drop(columns=['minute'])
+
+    # applying function above
+    top_payed_game_events['description'] = top_payed_game_events['description'].apply(
+        lambda x: event_description_modifier(x))
+
+    return top_payed_game_events
+
+
+# description cleaning
+def event_description_modifier(x):
+    """
+    Used in apply to modify the description column to cleaning the text inside
+    """
+    if 'red' in x or 'Red' in x:
+        return 'Red Card'
+    elif 'yellow' in x or 'Yellow' in x:
+        return 'Yellow Card'
+    elif 'goal' in x or 'Goal' in x:
+        return 'Goal'
+    else:
+        return 'Substitution'
+
+
