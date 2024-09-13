@@ -4,3 +4,4 @@ import folium as flm
 import matplotlib.pyplot as plt
 import seaborn as sns
 import geopandas as gpd
+import ipywidgets as widgets
